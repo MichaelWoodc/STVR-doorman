@@ -311,12 +311,16 @@
   <div id="map"></div>
 
   <script src="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js"></script>
-  <script src="locations.js"></script>
+  <script src="data/locations.js"></script>
   <script>
     // Configurable variable for auto-pan marker placement (0.25 = top 1/4 of the viewport)
     const MARKER_TOP_RATIO = 0.05;
 
     // Base Google Form prefill URL provided by user
+    // TODO: Replace with your own Google Form prefill URL if needed
+    // TODO: (2) add a unit number and url carry over to prefil more data into form if user clicked on a listing
+    // with a unit number 
+    // new url i going to be: 
     const baseFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfltlpYbYXLVyUJ7CwaIoTTaiGmAeuB2uA4mTYHwqwaIJki3w/viewform?usp=pp_url";
 
     // Initialize Map centered over Chatham County, GA with zoom level 10
@@ -348,7 +352,7 @@
       };
     }
 
-    function buildFormUrl(lat, lng, address, listingUrl = "") {
+    function buildFormUrl(lat, lng, address, listingUrl = "", unitName = "") {
       const dt = getCurrentDateTime();
       const preciseLat = Number(lat).toFixed(7);
       const preciseLng = Number(lng).toFixed(7);
@@ -356,6 +360,9 @@
       let url = `${baseFormUrl}&entry.231361985=${encodeURIComponent(dt.date)}&entry.386457368=${encodeURIComponent(dt.time)}&entry.743148639=${encodeURIComponent(address)}&entry.1753077861=${encodeURIComponent(preciseLat)}&entry.1569813902=${encodeURIComponent(preciseLng)}`;
       if (listingUrl) {
         url += `&entry.999999999=${encodeURIComponent(listingUrl)}`;
+      }
+      if (unitName) {
+        url += `&entry.1837968116=${encodeURIComponent(unitName)}`;
       }
       return url;
     }
@@ -374,8 +381,8 @@
       });
     }
 
-    window.triggerComplaint = function(lat, lng, address, listingUrl) {
-      const finalUrl = buildFormUrl(lat, lng, address, listingUrl);
+    window.triggerComplaint = function(lat, lng, address, listingUrl, unitName) {
+      const finalUrl = buildFormUrl(lat, lng, address, listingUrl, unitName);
       window.open(finalUrl, '_blank');
     };
 
@@ -454,7 +461,7 @@
         </div>
 
         <div class="popup-actions">
-          <button class="popup-btn btn-complaint" onclick="triggerComplaint('${loc.lat}', '${loc.lng}', '${loc.address}', '${currentUnit.vrboUrl}')">Submit Complaint Form</button>
+          <button class="popup-btn btn-complaint" onclick="triggerComplaint('${loc.lat}', '${loc.lng}', '${loc.address}', '${currentUnit.vrboUrl}', '${currentUnit.unitName}')">Submit Complaint Form</button>
           <button class="popup-btn btn-reposition" onclick="repositionLocation(${loc.lat}, ${loc.lng}, '${loc.address}')">📍 Reposition / New Spot</button>
           <a href="${complaintsPath}" target="_blank" class="popup-btn btn-view">View Existing Complaints</a>
         </div>
