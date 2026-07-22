@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About STVR Doorman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fb;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background: #1f2937;
+      color: #fff;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 3rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      color: #111827;
+    }
+    h3 {
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+      color: #111827;
+    }
+    p {
+      margin: 0.5rem 0 1rem;
+    }
+    ul {
+      margin: 0.5rem 0 1.5rem;
+      padding-left: 1.25rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+    }
+    .highlight {
+      background: #e5f2ff;
+      border-left: 4px solid #2563eb;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.95rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 0.6rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+    tr:nth-child(even) td {
+      background: #fafafa;
+    }
+    .tier-name {
+      font-weight: 600;
+    }
+    .footer-note {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    code {
+      background: #f3f4f6;
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About STVR Doorman</h1>
+    <p>Short-Term Vacation Rental compliance, mapping, and complaint management for municipalities and communities.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>What is STVR Doorman?</h2>
+      <p>
+        STVR Doorman is a free and open-source platform for municipalities, counties, HOAs, and community groups
+        to monitor, map, and manage Short-Term Vacation Rentals (STVRs). It brings together:
+      </p>
+      <ul>
+        <li>Interactive maps of licensed STVR properties</li>
+        <li>Links to Airbnb, VRBO, and other platform listings</li>
+        <li>Public complaint submission and visibility</li>
+        <li>Occupancy limit calculations and over-limit detection</li>
+        <li>Municipal boundary and parcel-based approximate address mapping</li>
+      </ul>
+
+      <p>
+        The platform uses open tools like <code>MapLibre GL</code>, GeoJSON, Shapefiles, and Google Forms.
+        With the right data files—municipal boundaries, parcel data, and a list of licensed STVRs—any jurisdiction
+        can deploy a fully functional STVR map and complaint portal at no cost.
+      </p>
+
+      <div class="highlight">
+        <strong>Open data example:</strong>
+        Municipalities can use open GIS portals such as
+        <a href="https://data-sagis.opendata.arcgis.com/" target="_blank" rel="noopener">
+          https://data-sagis.opendata.arcgis.com/
+        </a>
+        to obtain boundary and parcel data. With proper shape/GeoJSON files and a list of licensed STVR locations,
+        the entire map can be populated and linked to their own Google Form for free.
+      </div>
+
+      <p>
+        STVR Doorman is designed so that any municipality can revert to the free tier at any time.
+        Paid tiers add setup, customization, hosting, automation, and enforcement tools—but the core platform
+        always remains free and open.
+      </p>
+
+      <p>
+        Community support is available via a public GitHub repository for bug reports and feature requests.
+        No direct support is included in the free tier, but the code and documentation are open to everyone.
+      </p>
+    </section>
+
+    <section>
+      <h2>Tier Overview</h2>
+      <p>
+        STVR Doorman offers several tiers, from a completely free self-hosted option to fully managed,
+        enforcement-grade solutions. All tiers can revert to the free option at any time; reverting simply
+        removes premium features while preserving the core mapping and complaint functionality.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Price</th>
+            <th>Hosting</th>
+            <th>Setup Included</th>
+            <th>Complaint System</th>
+            <th>Real-Time Alerts</th>
+            <th>Data Required</th>
+            <th>Property Limit</th>
+            <th>Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tier-name">Free</td>
+            <td>$0</td>
+            <td>Self-hosted</td>
+            <td>None</td>
+            <td>Google Forms</td>
+            <td>No</td>
+            <td>Geo files + license list</td>
+            <td>Unlimited</td>
+            <td>Community (GitHub)</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Tier 1 – Assisted Setup</td>
+            <td>$2,000 one-time</td>
+            <td>Self-hosted</td>
+            <td>Yes (free platform setup)</td>
+            <td>Google Forms</td>
+            <td>No</td>
+            <td>Geo files + license list</td>
+            <td>Unlimited</td>
+            <td>$200/hr for additional work</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Tier 2 – Custom Complaints</td>
+            <td>$3,000 one-time</td>
+            <td>Self-hosted</td>
+            <td>Yes (custom form + integration)</td>
+            <td>Custom complaint form</td>
+            <td>No</td>
+            <td>Geo files + license list</td>
+            <td>Unlimited</td>
+            <td>$200/hr for additional work</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Tier 3 – Managed Hosting</td>
+            <td>$5,000 setup + $2,000/year</td>
+            <td>Hosted by STVR Doorman</td>
+            <td>Yes (full deployment)</td>
+            <td>Custom complaint system</td>
+            <td>No</td>
+            <td>Geo files + license list</td>
+            <td>Up to 5,000 properties</td>
+            <td>Up to 20 hours/year included</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Tier 4 – Enforcement-Grade</td>
+            <td>$40,000 setup + $5,000/year</td>
+            <td>Hosted by STVR Doorman</td>
+            <td>Yes (full deployment)</td>
+            <td>Custom complaint system</td>
+            <td>Yes (hosts & enforcement)</td>
+            <td>License list only</td>
+            <td>Up to 10,000 properties</td>
+            <td>Up to 20 hours/year included</td>
+          </tr>
+          <tr>
+            <td class="tier-name">Tier 5 – Ultra Premium</td>
+            <td>$80,000 first year + $9,000/year</td>
+            <td>Hosted by STVR Doorman</td>
+            <td>Yes (full discovery & deployment)</td>
+            <td>Custom complaint system</td>
+            <td>Yes (hosts & enforcement)</td>
+            <td>No initial data required</td>
+            <td>Up to 15,000 properties</td>
+            <td>Up to 40 hours/year included</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight">
+        <strong>Reverting to Free:</strong> At any time, a municipality can move back to the free tier.
+        The map and complaint portal remain usable, but premium features such as hosting, real-time alerts,
+        and managed updates are disabled. The platform is intentionally designed to avoid lock-in.
+      </div>
+    </section>
+
+    <section>
+      <h2>Tier Details</h2>
+
+      <h3>Free Tier – Open Source, Zero Cost</h3>
+      <p><strong>Best for:</strong> Cities with technical staff or GIS capability.</p>
+      <p><strong>Includes:</strong></p>
+      <ul>
+        <li>Full STVR mapping using MapLibre GL</li>
+        <li>Display of licensed properties and platform links (Airbnb, VRBO, etc.)</li>
+        <li>Public-facing portal with a Google Form for complaints</li>
+        <li>Basic visibility into complaints</li>
+        <li>Unlimited properties and submissions</li>
+        <li>Community support via GitHub</li>
+      </ul>
+      <p>
+        You provide your own data files (municipal boundaries, parcel data, and license list).
+        With the correct shape/GeoJSON files and STVR locations, the entire map can be populated
+        and linked to your own Google Form for free.
+      </p>
+
+      <h3>Tier 1 – Assisted Setup (Self-Hosted)</h3>
+      <p><strong>Best for:</strong> Municipalities that want the free platform but need help setting it up.</p>
+      <p><strong>Includes everything in Free, plus:</strong></p>
+      <ul>
+        <li>One-time setup of the free platform</li>
+        <li>Integration of your license list, boundaries, and parcel data</li>
+        <li>Integration of your Google Form</li>
+        <li>Unlimited properties</li>
+      </ul>
+      <p>
+        You host and maintain the platform yourself. Additional work is available at a billable rate of $200/hr.
+      </p>
+
+      <h3>Tier 2 – Custom Complaint System (Self-Hosted)</h3>
+      <p><strong>Best for:</strong> Cities wanting a custom complaint workflow.</p>
+      <p><strong>Includes everything in Tier 1, plus:</strong></p>
+      <ul>
+        <li>Fully custom complaint form (not limited to Google Forms)</li>
+        <li>Complaint visualization directly on the map</li>
+        <li>Integration into your existing web infrastructure</li>
+      </ul>
+      <p>
+        You still host and maintain the platform yourself, with optional paid support at $200/hr.
+      </p>
+
+      <h3>Tier 3 – Managed Hosting (Up to 5,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities wanting a turnkey hosted solution.</p>
+      <p><strong>Includes everything in Tier 2, plus:</strong></p>
+      <ul>
+        <li>Fully hosted platform managed by STVR Doorman</li>
+        <li>Twice-yearly updates</li>
+        <li>Up to 20 hours of maintenance and repairs per year</li>
+        <li>Priority support</li>
+        <li>Up to 5,000 properties</li>
+      </ul>
+      <p>
+        If geographic files are incomplete or malformed, additional fees may apply for data cleanup.
+      </p>
+
+      <h3>Tier 4 – Real-Time Notifications (Up to 10,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities needing enforcement-grade tools.</p>
+      <p><strong>Includes everything in Tier 3, plus:</strong></p>
+      <ul>
+        <li>Real-time push notifications to hosts</li>
+        <li>Real-time alerts to enforcement officials (e.g., 911 dispatch, code enforcement)</li>
+        <li>No geographic files required—only a list of licenses</li>
+        <li>Up to 10,000 properties</li>
+      </ul>
+      <p>
+        You can revert to the free tier at any time and continue using a Google Form-based complaint portal.
+      </p>
+
+      <h3>Tier 5 – Ultra Premium (Up to 15,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities needing full STVR discovery and population.</p>
+      <p><strong>Includes everything in Tier 4, plus:</strong></p>
+      <ul>
+        <li>No initial license list required</li>
+        <li>Manual identification and seeding of up to 15,000 STVR properties</li>
+        <li>Annual re-check for new properties</li>
+        <li>Up to 40 hours of custom requests and configuration per year</li>
+        <li>All features from all previous tiers</li>
+      </ul>
+      <p>
+        This tier is a complete STVR compliance solution requiring minimal municipal effort.
+      </p>
+    </section>
+
+    <section>
+      <h2>Community Contributions & Visitor Submissions</h2>
+      <p>
+        Regardless of tier, visitors can always add properties by clicking on the map and submitting links
+        to listings on platforms like Airbnb, VRBO, and others. This helps keep the map current and allows
+        communities to participate directly in monitoring short-term rentals.
+      </p>
+      <p>
+        The project will maintain a public GitHub repository where users can:
+      </p>
+      <ul>
+        <li>Report bugs</li>
+        <li>Request features</li>
+        <li>Contribute improvements</li>
+        <li>Share configuration examples</li>
+      </ul>
+    </section>
+
+    <div class="footer-note">
+      STVR Doorman is built on free and open-source software. The goal is to give municipalities a powerful,
+      transparent, and flexible way to understand and manage short-term rentals—without locking them into
+      proprietary systems or permanent subscriptions.
+    </div>
+  </main>
+</body>
+</html>
