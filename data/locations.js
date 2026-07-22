@@ -5,9 +5,9 @@ const stvrLocations = [
     "license": "",
     "lat": 31.9874255,
     "lng": -81.1036068,
-    "vrboUrl": "",
-    "airbnbUrl": "",
-    "otherUrl": "",
+    "vrboUrl": "https://www.vrbo.com/3799837",
+    "airbnbUrl": "data\\complaints\\8611_whitefield_ave_savannah_ga_31406\\main_unit\\8611_whitefield_ave.pdf",
+    "otherUrl": "https://michaelwoodc.github.io/stvr-info-page/owners/cozy_corner_rentals/cozy_corner_rentals.html",
     "viewComplaintsUrl": "data/complaints/8611_whitefield_ave_savannah_ga_31406/main_unit/index.html"
   },
   {
