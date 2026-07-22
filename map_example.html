@@ -180,7 +180,7 @@
 <body>
 
   <header>
-    <h1>STVR Complaint Portal — Chatham County</h1>
+    <h1>STVR Doorman — Chatham County</h1>
     <div class="header-controls">
       <button id="newLocationBtn" class="btn-new-location">📍 Submit New Location</button>
       <div class="search-container">
@@ -251,7 +251,6 @@
 
     // Global function to trigger reposition mode for existing database markers
     window.repositionLocation = function(lat, lng, address) {
-      // Close any open popups
       const popups = document.getElementsByClassName('maplibregl-popup');
       while (popups[0]) popups[0].remove();
 
@@ -273,11 +272,23 @@
 
       createConfirmationPopup(lng, lat, `Repositioning: ${address}`);
 
+      activeMarker.on('dragstart', () => {
+        if (activePopup) {
+          activePopup.remove();
+          activePopup = null;
+        }
+      });
+
       activeMarker.on('dragend', () => {
         const newLngLat = activeMarker.getLngLat();
         pendingData.lat = newLngLat.lat;
         pendingData.lng = newLngLat.lng;
-        updatePopupText(`Adjusted Location: ${newLngLat.lat.toFixed(6)}, ${newLngLat.lng.toFixed(6)}. Confirm to proceed.`);
+        
+        createConfirmationPopup(newLngLat.lng, newLngLat.lat, 'Updating address for new position...');
+        fetchAddressForCoordinates(newLngLat.lat, newLngLat.lng, (updatedAddress) => {
+          pendingData.address = updatedAddress;
+          updatePopupText(`Detected Address: ${updatedAddress}`);
+        });
       });
     };
 
@@ -463,11 +474,8 @@
       }
     });
 
-    // Click anywhere on map background during placement mode
-    map.on('click', (e) => {
-      if (!isPlacementMode) return;
-
-      const coords = e.lngLat;
+    // Helper handler to place a marker at specified coordinates (used by click, right-click menu, and long-press)
+    function handleLocationPlacement(coords) {
       exitPlacementMode();
 
       if (activeMarker) activeMarker.remove();
@@ -491,17 +499,89 @@
         updatePopupText(`Detected Address: ${detectedAddress}`);
       });
 
+      activeMarker.on('dragstart', () => {
+        if (activePopup) {
+          activePopup.remove();
+          activePopup = null;
+        }
+      });
+
       activeMarker.on('dragend', () => {
         const newLngLat = activeMarker.getLngLat();
         pendingData.lat = newLngLat.lat;
         pendingData.lng = newLngLat.lng;
         
-        updatePopupText('Updating address for new position...');
+        createConfirmationPopup(newLngLat.lng, newLngLat.lat, 'Updating address for new position...');
         fetchAddressForCoordinates(newLngLat.lat, newLngLat.lng, (updatedAddress) => {
           pendingData.address = updatedAddress;
           updatePopupText(`Detected Address: ${updatedAddress}`);
         });
       });
+    }
+
+    // Click handler when in placement mode via top button
+    map.on('click', (e) => {
+      if (!isPlacementMode) return;
+      handleLocationPlacement(e.lngLat);
+    });
+
+    // Right-click menu for Desktop & Context menu handling
+    let contextPopup = null;
+    map.on('contextmenu', (e) => {
+      e.preventDefault();
+      if (activePopup && activeMarker) return; // don't open context menu if a placement session is already active
+
+      if (contextPopup) contextPopup.remove();
+
+      const coords = e.lngLat;
+      const menuContent = document.createElement('div');
+      menuContent.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 0.4rem; color: #111827;">Map Options</div>
+        <button class="popup-btn btn-complaint" id="ctxAddBtn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">📍 Add New Location Here</button>
+      `;
+
+      contextPopup = new maplibregl.Popup({ offset: 15 })
+        .setLngLat([coords.lng, coords.lat])
+        .setDOMContent(menuContent)
+        .addTo(map);
+
+      document.getElementById('ctxAddBtn').addEventListener('click', () => {
+        contextPopup.remove();
+        contextPopup = null;
+        handleLocationPlacement(coords);
+      });
+    });
+
+    // Mobile support: Long press / touch hold (approx 600ms) to drop a new location marker
+    let touchTimer = null;
+    let touchCoords = null;
+
+    map.on('touchstart', (e) => {
+      if (e.originalEvent.touches.length === 1) {
+        touchCoords = e.lngLat;
+        touchTimer = setTimeout(() => {
+          if (touchCoords) {
+            handleLocationPlacement(touchCoords);
+            touchCoords = null;
+          }
+        }, 600); // 600ms hold
+      }
+    });
+
+    map.on('touchmove', () => {
+      if (touchTimer) {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+        touchCoords = null;
+      }
+    });
+
+    map.on('touchend', () => {
+      if (touchTimer) {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+        touchCoords = null;
+      }
     });
 
     // Search bar functionality using Nominatim geocoding restricted around Chatham County / Savannah region
@@ -522,30 +602,9 @@
             const lon = parseFloat(data[0].lon);
             const displayName = data[0].display_name;
 
-            map.flyTo({ center: [lon, lat], zoom: 18, speed: 1.2 });
-
-            if (activeMarker) activeMarker.remove();
-            if (activePopup) activePopup.remove();
-
-            activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
-              .setLngLat([lon, lat])
-              .addTo(map);
-
-            pendingData = {
-              lat: lat,
-              lng: lon,
-              address: displayName,
-              listingUrl: ""
-            };
-
-            createConfirmationPopup(lon, lat, `Found: ${displayName}`);
-
-            activeMarker.on('dragend', () => {
-              const newLngLat = activeMarker.getLngLat();
-              pendingData.lat = newLngLat.lat;
-              pendingData.lng = newLngLat.lng;
-              updatePopupText(`Adjusted Location: ${newLngLat.lat.toFixed(6)}, ${newLngLat.lng.toFixed(6)}. Confirm to proceed.`);
-            });
+            handleLocationPlacement({ lat: lat, lng: lon });
+            pendingData.address = displayName;
+            updatePopupText(`Found: ${displayName}`);
           } else {
             alert('Location not found in Chatham County.');
           }
