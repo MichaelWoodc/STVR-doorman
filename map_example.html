@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>STVR Doorman - Chatham County Complaint Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f7fb;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #1f2937;
+      color: #fff;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      z-index: 10;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    .header-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-new-location {
+      background: #10b981;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-new-location:hover {
+      background: #059669;
+    }
+    .btn-new-location.active {
+      background: #dc2626;
+    }
+    .search-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .search-container input {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #4b5563;
+      border-radius: 4px;
+      width: 240px;
+    }
+    .search-container button {
+      padding: 0.5rem 1rem;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .search-container button:hover {
+      background: #1d4ed8;
+    }
+    #map {
+      flex: 1;
+      width: 100%;
+    }
+    /* Banner instructing user during manual placement mode */
+    #placementBanner {
+      display: none;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2937;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    /* Custom Popup Styles */
+    .maplibregl-popup-content {
+      padding: 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      min-width: 260px;
+    }
+    .popup-title {
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+      color: #111827;
+    }
+    .popup-detail {
+      font-size: 0.85rem;
+      color: #4b5563;
+      margin-bottom: 0.6rem;
+    }
+    .popup-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0.6rem 0;
+    }
+    .popup-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.88rem;
+    }
+    .popup-link:hover {
+      text-decoration: underline;
+    }
+    .popup-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .popup-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      box-sizing: border-box;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-complaint {
+      background: #dc2626;
+      color: #fff;
+    }
+    .btn-complaint:hover {
+      background: #b91c1c;
+    }
+    .btn-reposition {
+      background: #d97706;
+      color: #fff;
+    }
+    .btn-reposition:hover {
+      background: #b45309;
+    }
+    .btn-view {
+      background: #4b5563;
+      color: #fff;
+    }
+    .btn-view:hover {
+      background: #374151;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>STVR Complaint Portal — Chatham County</h1>
+    <div class="header-controls">
+      <button id="newLocationBtn" class="btn-new-location">📍 Submit New Location</button>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search address in Chatham County..." />
+        <button id="searchBtn">Search</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="placementBanner">Click anywhere on the map to place your new location marker!</div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js"></script>
+  <!-- Imported locations file -->
+  <script src="locations.js"></script>
+  <script>
+    // Base Google Form prefill URL provided by user
+    const baseFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfltlpYbYXLVyUJ7CwaIoTTaiGmAeuB2uA4mTYHwqwaIJki3w/viewform?usp=pp_url";
+
+    // Initialize Map centered over Chatham County, GA with zoom level 10
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+      center: [-81.15, 31.98],
+      zoom: 10
+    });
+
+    let isPlacementMode = false;
+    let activeMarker = null;
+    let activePopup = null;
+    let pendingData = null;
+
+    const newLocationBtn = document.getElementById('newLocationBtn');
+    const placementBanner = document.getElementById('placementBanner');
+
+    // Helper to generate current date (YYYY-MM-DD) and time (HH:MM)
+    function getCurrentDateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return {
+        date: `${year}-${month}-${day}`,
+        time: `${hours}:${minutes}`
+      };
+    }
+
+    // Build final prefill URL using high-precision coordinates (fixed to 7 decimal places)
+    function buildFormUrl(lat, lng, address, listingUrl = "") {
+      const dt = getCurrentDateTime();
+      const preciseLat = Number(lat).toFixed(7);
+      const preciseLng = Number(lng).toFixed(7);
+
+      let url = `${baseFormUrl}&entry.231361985=${encodeURIComponent(dt.date)}&entry.386457368=${encodeURIComponent(dt.time)}&entry.743148639=${encodeURIComponent(address)}&entry.1753077861=${encodeURIComponent(preciseLat)}&entry.1569813902=${encodeURIComponent(preciseLng)}`;
+      if (listingUrl) {
+        url += `&entry.999999999=${encodeURIComponent(listingUrl)}`;
+      }
+      return url;
+    }
+
+    // Global function called from popups to open prefilled Google Form
+    window.triggerComplaint = function(lat, lng, address, listingUrl) {
+      const finalUrl = buildFormUrl(lat, lng, address, listingUrl);
+      window.open(finalUrl, '_blank');
+    };
+
+    // Global function to trigger reposition mode for existing database markers
+    window.repositionLocation = function(lat, lng, address) {
+      // Close any open popups
+      const popups = document.getElementsByClassName('maplibregl-popup');
+      while (popups[0]) popups[0].remove();
+
+      map.flyTo({ center: [lng, lat], zoom: 18, speed: 1.2 });
+
+      if (activeMarker) activeMarker.remove();
+      if (activePopup) activePopup.remove();
+
+      activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
+        .setLngLat([lng, lat])
+        .addTo(map);
+
+      pendingData = {
+        lat: lat,
+        lng: lng,
+        address: address,
+        listingUrl: ""
+      };
+
+      createConfirmationPopup(lng, lat, `Repositioning: ${address}`);
+
+      activeMarker.on('dragend', () => {
+        const newLngLat = activeMarker.getLngLat();
+        pendingData.lat = newLngLat.lat;
+        pendingData.lng = newLngLat.lng;
+        updatePopupText(`Adjusted Location: ${newLngLat.lat.toFixed(6)}, ${newLngLat.lng.toFixed(6)}. Confirm to proceed.`);
+      });
+    };
+
+    // Helper to safely format folder path structure from address and unit/license string
+    function getSubfolderPath(address, unitOrLicense) {
+      const cleanAddress = address.replace(/[^a-zA-Z0-9]/g, '_');
+      const cleanUnit = (unitOrLicense || 'main').replace(/[^a-zA-Z0-9]/g, '_');
+      return `./${cleanAddress}_${cleanUnit}/index.html`;
+    }
+
+    // Once map loads, loop through imported markers from locations.js and render them
+    map.on('load', () => {
+      const locationsToRender = (typeof stvrLocations !== 'undefined') ? stvrLocations : [];
+
+      locationsToRender.forEach(loc => {
+        const complaintsPath = loc.viewComplaintsUrl || getSubfolderPath(loc.address, loc.license);
+
+        const popupHtml = `
+          <div class="popup-title">${loc.title || 'Licensed STVR Property'}</div>
+          <div class="popup-detail"><strong>Address:</strong> ${loc.address}</div>
+          <div class="popup-detail"><strong>License #:</strong> ${loc.license}</div>
+          
+          <div class="popup-links">
+            <a href="${loc.vrboUrl}" target="_blank" class="popup-link">🔗 View VRBO Listing</a>
+            <a href="${loc.airbnbUrl}" target="_blank" class="popup-link">🔗 View Airbnb Listing</a>
+          </div>
+
+          <div class="popup-actions">
+            <button class="popup-btn btn-complaint" onclick="triggerComplaint('${loc.lat}', '${loc.lng}', '${loc.address}', '${loc.vrboUrl}')">Submit Complaint Form</button>
+            <button class="popup-btn btn-reposition" onclick="repositionLocation(${loc.lat}, ${loc.lng}, '${loc.address}')">📍 Reposition / New Spot</button>
+            <a href="${complaintsPath}" target="_blank" class="popup-btn btn-view">View Existing Complaints</a>
+          </div>
+        `;
+
+        const el = document.createElement('div');
+        el.style.width = '24px';
+        el.style.height = '24px';
+        el.style.backgroundColor = '#2563eb';
+        el.style.border = '2px solid #fff';
+        el.style.borderRadius = '50%';
+        el.style.cursor = 'pointer';
+
+        const popup = new maplibregl.Popup({ offset: 25 }).setHTML(popupHtml);
+
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          marker.togglePopup();
+        });
+
+        const marker = new maplibregl.Marker({ element: el })
+          .setLngLat([loc.lng, loc.lat])
+          .setPopup(popup)
+          .addTo(map);
+      });
+    });
+
+    // Toggle "Submit New Location" mode
+    newLocationBtn.addEventListener('click', () => {
+      isPlacementMode = !isPlacementMode;
+      if (isPlacementMode) {
+        newLocationBtn.textContent = '❌ Cancel Placement';
+        newLocationBtn.classList.add('active');
+        placementBanner.style.display = 'block';
+      } else {
+        exitPlacementMode();
+      }
+    });
+
+    function exitPlacementMode() {
+      isPlacementMode = false;
+      newLocationBtn.textContent = '📍 Submit New Location';
+      newLocationBtn.classList.remove('active');
+      placementBanner.style.display = 'none';
+    }
+
+    // Reverse geocode using Nominatim to detect address automatically
+    function fetchAddressForCoordinates(lat, lng, callback) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(response => response.json())
+        .then(data => {
+          const detectedAddress = (data && data.display_name) ? data.display_name : `Chatham County Location (${lat.toFixed(6)}, ${lng.toFixed(6)})`;
+          callback(detectedAddress);
+        })
+        .catch(err => {
+          console.error('Reverse geocoding error:', err);
+          callback(`Chatham County Location (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
+        });
+    }
+
+    // Create a native MapLibre popup anchored directly to the marker containing confirmation controls
+    function createConfirmationPopup(lng, lat, initialText) {
+      if (activePopup) activePopup.remove();
+
+      const popupContent = document.createElement('div');
+      popupContent.innerHTML = `
+        <div class="popup-title">Confirm Location</div>
+        <div class="popup-detail" id="popupAddressText">${initialText}</div>
+        <div style="font-size: 0.8rem; color: #2563eb; margin-bottom: 0.6rem; font-weight: 500;">
+          💡 Tip: Drag marker or use Keyboard Arrow keys to fine-tune position!
+        </div>
+        <div class="popup-actions">
+          <button class="popup-btn btn-complaint" id="popupConfirmBtn">Confirm & Open Form</button>
+          <button class="popup-btn btn-view" id="popupCancelBtn" style="background:#e5e7eb; color:#374151;">Cancel</button>
+        </div>
+      `;
+
+      activePopup = new maplibregl.Popup({ offset: 25, closeOnClick: false })
+        .setLngLat([lng, lat])
+        .setDOMContent(popupContent)
+        .addTo(map);
+
+      document.getElementById('popupConfirmBtn').addEventListener('click', () => {
+        if (activeMarker && pendingData) {
+          const finalCoords = activeMarker.getLngLat();
+          const finalUrl = buildFormUrl(finalCoords.lat, finalCoords.lng, pendingData.address, pendingData.listingUrl || "");
+          window.open(finalUrl, '_blank');
+        }
+        cleanupActiveSession();
+      });
+
+      document.getElementById('popupCancelBtn').addEventListener('click', () => {
+        cleanupActiveSession();
+      });
+    }
+
+    function updatePopupText(newText) {
+      const textElem = document.getElementById('popupAddressText');
+      if (textElem) {
+        textElem.textContent = newText;
+      }
+      if (activeMarker && activePopup) {
+        activePopup.setLngLat(activeMarker.getLngLat());
+      }
+    }
+
+    function cleanupActiveSession() {
+      if (activeMarker) {
+        activeMarker.remove();
+        activeMarker = null;
+      }
+      if (activePopup) {
+        activePopup.remove();
+        activePopup = null;
+      }
+      pendingData = null;
+    }
+
+    // Keyboard arrow controls to nudge marker position
+    window.addEventListener('keydown', (e) => {
+      if (!activeMarker) return;
+
+      const step = 0.00005; // fine increment step for arrow keys
+      const currentLngLat = activeMarker.getLngLat();
+      let newLat = currentLngLat.lat;
+      let newLng = currentLngLat.lng;
+      let moved = false;
+
+      if (e.key === 'ArrowUp') {
+        newLat += step;
+        moved = true;
+      } else if (e.key === 'ArrowDown') {
+        newLat -= step;
+        moved = true;
+      } else if (e.key === 'ArrowLeft') {
+        newLng -= step;
+        moved = true;
+      } else if (e.key === 'ArrowRight') {
+        newLng += step;
+        moved = true;
+      }
+
+      if (moved) {
+        e.preventDefault(); // prevent page scrolling
+        activeMarker.setLngLat([newLng, newLat]);
+        if (activePopup) {
+          activePopup.setLngLat([newLng, newLat]);
+        }
+        if (pendingData) {
+          pendingData.lat = newLat;
+          pendingData.lng = newLng;
+          updatePopupText(`Adjusted Location: ${newLat.toFixed(6)}, ${newLng.toFixed(6)}. Confirm to proceed.`);
+        }
+      }
+    });
+
+    // Click anywhere on map background during placement mode
+    map.on('click', (e) => {
+      if (!isPlacementMode) return;
+
+      const coords = e.lngLat;
+      exitPlacementMode();
+
+      if (activeMarker) activeMarker.remove();
+      if (activePopup) activePopup.remove();
+
+      map.flyTo({ center: [coords.lng, coords.lat], zoom: 18, speed: 1.2 });
+
+      activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
+        .setLngLat([coords.lng, coords.lat])
+        .addTo(map);
+
+      createConfirmationPopup(coords.lng, coords.lat, 'Detecting address for coordinates...');
+
+      fetchAddressForCoordinates(coords.lat, coords.lng, (detectedAddress) => {
+        pendingData = {
+          lat: coords.lat,
+          lng: coords.lng,
+          address: detectedAddress,
+          listingUrl: ""
+        };
+        updatePopupText(`Detected Address: ${detectedAddress}`);
+      });
+
+      activeMarker.on('dragend', () => {
+        const newLngLat = activeMarker.getLngLat();
+        pendingData.lat = newLngLat.lat;
+        pendingData.lng = newLngLat.lng;
+        
+        updatePopupText('Updating address for new position...');
+        fetchAddressForCoordinates(newLngLat.lat, newLngLat.lng, (updatedAddress) => {
+          pendingData.address = updatedAddress;
+          updatePopupText(`Detected Address: ${updatedAddress}`);
+        });
+      });
+    });
+
+    // Search bar functionality using Nominatim geocoding restricted around Chatham County / Savannah region
+    document.getElementById('searchBtn').addEventListener('click', performSearch);
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') performSearch();
+    });
+
+    function performSearch() {
+      const query = document.getElementById('searchInput').value;
+      if (!query) return;
+
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ' Chatham County Georgia')}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+            const displayName = data[0].display_name;
+
+            map.flyTo({ center: [lon, lat], zoom: 18, speed: 1.2 });
+
+            if (activeMarker) activeMarker.remove();
+            if (activePopup) activePopup.remove();
+
+            activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
+              .setLngLat([lon, lat])
+              .addTo(map);
+
+            pendingData = {
+              lat: lat,
+              lng: lon,
+              address: displayName,
+              listingUrl: ""
+            };
+
+            createConfirmationPopup(lon, lat, `Found: ${displayName}`);
+
+            activeMarker.on('dragend', () => {
+              const newLngLat = activeMarker.getLngLat();
+              pendingData.lat = newLngLat.lat;
+              pendingData.lng = newLngLat.lng;
+              updatePopupText(`Adjusted Location: ${newLngLat.lat.toFixed(6)}, ${newLngLat.lng.toFixed(6)}. Confirm to proceed.`);
+            });
+          } else {
+            alert('Location not found in Chatham County.');
+          }
+        })
+        .catch(err => console.error('Geocoding error:', err));
+    }
+  </script>
+</body>
+</html>

@@ -402,8 +402,10 @@
         border: none;
         border-bottom: 1px solid var(--border-color);
         position: relative;
-        padding: 0.6rem 0.75rem 0.6rem 45%;
+        padding: 0.6rem 0.75rem 0.6rem 52%;
         text-align: right;
+        word-break: normal;
+        overflow-wrap: anywhere;
       }
       td:last-child {
         border-bottom: none;
@@ -411,9 +413,9 @@
       td::before {
         position: absolute;
         left: 0.75rem;
-        width: 40%;
-        padding-right: 10px;
-        white-space: nowrap;
+        width: 47%;
+        padding-right: 5px;
+        white-space: normal;
         text-align: left;
         font-weight: bold;
         color: var(--mobile-label-color);
