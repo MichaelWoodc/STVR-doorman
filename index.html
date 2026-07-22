@@ -24,6 +24,8 @@
       --card-border: transparent;
       --mobile-card-bg: #f8fafc;
       --mobile-label-color: #4b5563;
+      --dropdown-bg: #1f2937;
+      --dropdown-hover: #374151;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -46,6 +48,8 @@
         --card-border: #334155;
         --mobile-card-bg: #0f172a;
         --mobile-label-color: #94a3b8;
+        --dropdown-bg: #090d16;
+        --dropdown-hover: #1e293b;
       }
     }
 
@@ -68,6 +72,8 @@
       --card-border: #334155;
       --mobile-card-bg: #0f172a;
       --mobile-label-color: #94a3b8;
+      --dropdown-bg: #090d16;
+      --dropdown-hover: #1e293b;
     }
 
     body {
@@ -79,26 +85,118 @@
       line-height: 1.6;
       transition: background 0.3s, color 0.3s;
     }
+
     header {
       background: var(--header-bg);
       color: var(--header-text);
-      padding: 2.5rem 1.5rem;
+      padding: 2.5rem 0;
       text-align: center;
-      position: relative;
     }
+
+    .header-inner {
+      width: 80%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      padding: 0 2.5rem;
+    }
+
+    .header-logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-logo {
+      height: 4.5rem;
+      width: auto;
+      object-fit: contain;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .header-logo:hover {
+      opacity: 0.9;
+    }
+
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
     header h1 {
       margin: 0;
       font-size: 2.2rem;
     }
+
     header p {
       margin: 0.5rem 0 0;
       font-size: 1rem;
       opacity: 0.85;
     }
-    .theme-toggle {
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Dropdown Menu Styles */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: inherit;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+
+    .dropbtn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .dropdown-content {
+      display: none;
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      right: 0;
+      background-color: var(--dropdown-bg);
+      min-width: 260px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 10;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .dropdown-content a {
+      color: var(--header-text);
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .dropdown-content a:hover {
+      background-color: var(--dropdown-hover);
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    .theme-toggle {
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: inherit;
@@ -111,6 +209,7 @@
     .theme-toggle:hover {
       background: rgba(255, 255, 255, 0.25);
     }
+
     main {
       width: 80%;
       max-width: 1400px;
@@ -120,6 +219,7 @@
       border-radius: 8px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.06);
       border: 1px solid var(--card-border);
+      box-sizing: border-box;
     }
     h2 {
       margin-top: 2rem;
@@ -150,6 +250,39 @@
       font-size: 0.95rem;
     }
 
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--link-color);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--code-bg);
+      color: var(--h-color);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-primary:hover, .btn-secondary:hover {
+      opacity: 0.9;
+      text-decoration: none;
+    }
+
     /* Desktop Table Layout (No scrollbar, thick outlines, dark headers) */
     table {
       width: 100%;
@@ -177,13 +310,35 @@
       font-weight: 600;
     }
 
-    .footer-note {
+    /* Footer Styles */
+    .site-footer {
       font-size: 0.9rem;
       color: var(--footer-color);
       margin-top: 2rem;
       border-top: 1px solid var(--border-color);
-      padding-top: 1rem;
+      padding-top: 1.5rem;
     }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+    }
+
     a {
       color: var(--link-color);
       text-decoration: none;
@@ -198,11 +353,27 @@
       font-size: 0.9rem;
     }
 
-    /* Mobile Responsive Tier Stack View */
+    /* Mobile Responsive Tighter Margins & Stack View */
     @media (max-width: 900px) {
+      header {
+        padding: 1.5rem 0;
+      }
+      .header-inner {
+        width: 90%;
+        padding: 0 1rem;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .header-logo-container {
+        margin-bottom: 0.25rem;
+      }
+      .header-controls {
+        width: 100%;
+        justify-content: center;
+      }
       main {
-        width: 95%;
-        padding: 1rem;
+        width: 90%;
+        padding: 1rem 1.25rem;
         margin: 1rem auto;
       }
       table, thead, tbody, th, td, tr {
@@ -262,16 +433,59 @@
         content: none;
       }
     }
+
+    @media (max-width: 480px) {
+      .header-inner {
+        width: 86%;
+        padding: 0 0.5rem;
+      }
+      main {
+        width: 86%;
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark Mode</button>
-    <h1>About STVR Doorman</h1>
-    <p>Short-Term Vacation Rental compliance, mapping, and complaint management for municipalities and communities.</p>
+    <div class="header-inner">
+      <div class="header-logo-container">
+        <a href="media\Vecteezy-License-Information.pdf" target="_blank" rel="noopener">
+          <img src="media\doorman.jpg" alt="STVR Doorman Logo" class="header-logo">
+        </a>
+      </div>
+      <div class="header-content">
+        <h1>About STVR Doorman</h1>
+        <p>Short-Term Vacation Rental compliance, mapping, and complaint management for municipalities and communities.</p>
+      </div>
+      <div class="header-controls">
+        <div class="dropdown" id="navDropdown">
+          <button class="dropbtn" id="dropBtn">Menu ▾</button>
+          <div class="dropdown-content">
+            <a href="#getting-started">Getting Started Guide</a>
+            <a href="#consultation">Schedule a Free Consultation</a>
+            <a href="#best-practices">Operational Best Practices</a>
+            <a href="#legal-best-practices">STVR Law Best Practices</a>
+            <a href="#regulatory-guide">Regulatory Framework & Law Guide</a>
+            <a href="#founder">About the Founder</a>
+            <a href="#employees">Our Team & Employees</a>
+            <a href="#employment">Employment Opportunities</a>
+            <a href="#contribute">How to Contribute</a>
+            <a href="#legal">Legal Disclaimers</a>
+            <a href="#privacy">Privacy Policy</a>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+      </div>
+    </div>
   </header>
 
   <main>
+    <div class="action-buttons">
+      <a href="#getting-started" class="btn-primary">Getting Started Guide</a>
+      <a href="#consultation" class="btn-secondary">Schedule a Consultation — Always Free!</a>
+    </div>
+
     <section>
       <h2>What is STVR Doorman?</h2>
       <p>
@@ -281,25 +495,33 @@
       <ul>
         <li>Interactive maps of licensed STVR properties</li>
         <li>Links to Airbnb, VRBO, and other platform listings</li>
-        <li>Public complaint submission and visibility</li>
+        <li>Public complaint submission and visibility via Google Forms linked to automated update scripts</li>
+        <li>Customizable levels of transparency for public reporting and data sharing</li>
         <li>Occupancy limit calculations and over-limit detection</li>
         <li>Municipal boundary and parcel-based approximate address mapping</li>
       </ul>
 
       <p>
+        The platform features customizable levels of transparency so communities can tailor reporting to local policies.
+        Complaints can be configured to be entirely public by default, moderated before publishing, made public only after official verification,
+        or kept private for internal code enforcement use only.
+      </p>
+
+      <p>
         The platform uses open tools like <code>MapLibre GL</code>, GeoJSON, Shapefiles, and Google Forms.
+        Hosting options are available entirely for free on GitHub Pages and GitHub repositories.
         With the right data files—municipal boundaries, parcel data, and a list of licensed STVRs—any jurisdiction
-        can deploy a fully functional STVR map and complaint portal at no cost.
+        can deploy a fully functional STVR map and complaint portal at zero cost.
       </p>
 
       <div class="highlight">
-        <strong>Open data example:</strong>
+        <strong>Open data & script automation example:</strong>
         Municipalities can use open GIS portals such as
         <a href="https://data-sagis.opendata.arcgis.com/" target="_blank" rel="noopener">
           https://data-sagis.opendata.arcgis.com/
         </a>
-        to obtain boundary and parcel data. With proper shape/GeoJSON files and a list of licensed STVR locations,
-        the entire map can be populated and linked to their own Google Form for free.
+        to obtain boundary and parcel data. Public complaints submitted through Google Forms run a lightweight backend script
+        that automatically processes entries so the complaints map and data layers update seamlessly according to your chosen transparency settings.
       </div>
 
       <p>
@@ -329,7 +551,7 @@
             <th>Price</th>
             <th>Hosting</th>
             <th>Setup Included</th>
-            <th>Complaint System</th>
+            <th>Complaint System & Transparency</th>
             <th>Real-Time Alerts</th>
             <th>Data Required</th>
             <th>Property Limit</th>
@@ -340,9 +562,9 @@
           <tr>
             <td class="tier-name" data-label="Tier">Free</td>
             <td data-label="Price">$0</td>
-            <td data-label="Hosting">Self-hosted</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
             <td data-label="Setup Included">None</td>
-            <td data-label="Complaint System">Google Forms</td>
+            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
             <td data-label="Real-Time Alerts">No</td>
             <td data-label="Data Required">Geo files + license list</td>
             <td data-label="Property Limit">Unlimited</td>
@@ -351,9 +573,9 @@
           <tr>
             <td class="tier-name" data-label="Tier">Tier 1 – Assisted Setup</td>
             <td data-label="Price">$2,000 one-time</td>
-            <td data-label="Hosting">Self-hosted</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
             <td data-label="Setup Included">Yes (free platform setup)</td>
-            <td data-label="Complaint System">Google Forms</td>
+            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
             <td data-label="Real-Time Alerts">No</td>
             <td data-label="Data Required">Geo files + license list</td>
             <td data-label="Property Limit">Unlimited</td>
@@ -362,9 +584,9 @@
           <tr>
             <td class="tier-name" data-label="Tier">Tier 2 – Custom Complaints</td>
             <td data-label="Price">$3,000 one-time</td>
-            <td data-label="Hosting">Self-hosted</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
             <td data-label="Setup Included">Yes (custom form + integration)</td>
-            <td data-label="Complaint System">Custom complaint form</td>
+            <td data-label="Complaint System & Transparency">Custom complaint form + auto-update script (customizable transparency)</td>
             <td data-label="Real-Time Alerts">No</td>
             <td data-label="Data Required">Geo files + license list</td>
             <td data-label="Property Limit">Unlimited</td>
@@ -375,7 +597,7 @@
             <td data-label="Price">$5,000 setup + $2,000/year</td>
             <td data-label="Hosting">Hosted by STVR Doorman</td>
             <td data-label="Setup Included">Yes (full deployment)</td>
-            <td data-label="Complaint System">Custom complaint system</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with advanced moderation workflows</td>
             <td data-label="Real-Time Alerts">No</td>
             <td data-label="Data Required">Geo files + license list</td>
             <td data-label="Property Limit">Up to 5,000 properties</td>
@@ -386,7 +608,7 @@
             <td data-label="Price">$40,000 setup + $5,000/year</td>
             <td data-label="Hosting">Hosted by STVR Doorman</td>
             <td data-label="Setup Included">Yes (full deployment)</td>
-            <td data-label="Complaint System">Custom complaint system</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with internal/public toggle controls</td>
             <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
             <td data-label="Data Required">License list only</td>
             <td data-label="Property Limit">Up to 10,000 properties</td>
@@ -397,7 +619,7 @@
             <td data-label="Price">$80,000 first year + $9,000/year</td>
             <td data-label="Hosting">Hosted by STVR Doorman</td>
             <td data-label="Setup Included">Yes (full discovery & deployment)</td>
-            <td data-label="Complaint System">Custom complaint system</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with flexible privacy rules</td>
             <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
             <td data-label="Data Required">No initial data required</td>
             <td data-label="Property Limit">Up to 15,000 properties</td>
@@ -407,8 +629,8 @@
       </table>
 
       <div class="highlight">
-        <strong>Reverting to Free:</strong> At any time, a municipality can move back to the free tier.
-        The map and complaint portal remain usable, but premium features such as hosting, real-time alerts,
+        <strong>Reverting to Free:</strong> At any time, a municipality can move back to the free tier (utilizing free GitHub hosting).
+        The map and complaint portal remain usable, but premium features such as dedicated server hosting, real-time alerts,
         and managed updates are disabled. The platform is intentionally designed to avoid lock-in.
       </div>
     </section>
@@ -422,15 +644,16 @@
       <ul>
         <li>Full STVR mapping using MapLibre GL</li>
         <li>Display of licensed properties and platform links (Airbnb, VRBO, etc.)</li>
-        <li>Public-facing portal with a Google Form for complaints</li>
-        <li>Basic visibility into complaints</li>
+        <li>Public-facing portal with a Google Form for complaints tied to an automated update script</li>
+        <li>Configurable transparency settings (public by default, moderated, or verified-only)</li>
+        <li>Free hosting options available directly on GitHub</li>
         <li>Unlimited properties and submissions</li>
         <li>Community support via GitHub</li>
       </ul>
       <p>
         You provide your own data files (municipal boundaries, parcel data, and license list).
         With the correct shape/GeoJSON files and STVR locations, the entire map can be populated
-        and linked to your own Google Form for free.
+        and hosted publicly at zero cost.
       </p>
 
       <h3>Tier 1 – Assisted Setup (Self-Hosted)</h3>
@@ -439,11 +662,11 @@
       <ul>
         <li>One-time setup of the free platform</li>
         <li>Integration of your license list, boundaries, and parcel data</li>
-        <li>Integration of your Google Form</li>
+        <li>Integration of your Google Form and script pipeline with tailored transparency rules</li>
         <li>Unlimited properties</li>
       </ul>
       <p>
-        You host and maintain the platform yourself. Additional work is available at a billable rate of $200/hr.
+        You host and maintain the platform yourself (with free options on GitHub). Additional work is available at a billable rate of $200/hr.
       </p>
 
       <h3>Tier 2 – Custom Complaint System (Self-Hosted)</h3>
@@ -451,7 +674,8 @@
       <p><strong>Includes everything in Tier 1, plus:</strong></p>
       <ul>
         <li>Fully custom complaint form (not limited to Google Forms)</li>
-        <li>Complaint visualization directly on the map</li>
+        <li>Complaint visualization directly on the map via automated data scripts</li>
+        <li>Flexible transparency controls (moderation queues, public-by-default, or verification gates)</li>
         <li>Integration into your existing web infrastructure</li>
       </ul>
       <p>
@@ -518,18 +742,32 @@
       </ul>
     </section>
 
-    <div class="footer-note">
-      STVR Doorman is built on free and open-source software. The goal is to give municipalities a powerful,
-      transparent, and flexible way to understand and manage short-term rentals—without locking them into
-      proprietary systems or permanent subscriptions.
-    </div>
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#getting-started">Getting Started Guide</a>
+        <a href="#consultation">Schedule a Free Consultation</a>
+        <a href="#best-practices">Operational Best Practices</a>
+        <a href="#legal-best-practices">STVR Law Best Practices</a>
+        <a href="#regulatory-guide">Regulatory Framework & Law Guide</a>
+        <a href="#founder">About the Founder</a>
+        <a href="#employees">Our Team & Employees</a>
+        <a href="#employment">Employment Opportunities</a>
+        <a href="#contribute">How to Contribute</a>
+        <a href="#legal">Legal Disclaimers</a>
+        <a href="#privacy">Privacy Policy</a>
+      </div>
+      <div class="footer-note">
+        STVR Doorman is built on free and open-source software with free hosting options on GitHub. The goal is to give municipalities a powerful,
+        transparent, and flexible way to understand and manage short-term rentals—without locking them into
+        proprietary systems or permanent subscriptions.
+      </div>
+    </footer>
   </main>
 
   <script>
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
 
-    // Check for saved user preference, otherwise system preference is respected automatically via CSS media query
     const savedTheme = localStorage.getItem('stvr_theme');
     if (savedTheme) {
       htmlElement.setAttribute('data-theme', savedTheme);
@@ -547,7 +785,6 @@
       } else if (currentTheme === 'light') {
         newTheme = 'dark';
       } else {
-        // If not explicitly set, toggle against current system scheme
         const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         newTheme = systemDark ? 'light' : 'dark';
       }
@@ -564,6 +801,20 @@
         themeToggle.textContent = '🌙 Dark Mode';
       }
     }
+
+    const dropdown = document.getElementById('navDropdown');
+    const dropBtn = document.getElementById('dropBtn');
+
+    dropBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('active');
+    });
+
+    window.addEventListener('click', () => {
+      if (dropdown.classList.contains('active')) {
+        dropdown.classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
