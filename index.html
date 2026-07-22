@@ -2,1017 +2,822 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>STVR Doorman - Chatham County Complaint Portal</title>
+  <title>About STVR Doorman</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.css" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #fff;
+      --text: #222;
+      --header-bg: #1f2937;
+      --header-text: #fff;
+      --h-color: #111827;
+      --border-color: #4b5563;
+      --table-border: #1f2937;
+      --th-bg: #cbd5e1;
+      --tr-even: #f8fafc;
+      --highlight-bg: #e5f2ff;
+      --highlight-border: #2563eb;
+      --code-bg: #f3f4f6;
+      --footer-color: #4b5563;
+      --link-color: #2563eb;
+      --card-border: transparent;
+      --mobile-card-bg: #f8fafc;
+      --mobile-label-color: #4b5563;
+      --dropdown-bg: #1f2937;
+      --dropdown-hover: #374151;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #f1f5f9;
+        --header-bg: #090d16;
+        --header-text: #f8fafc;
+        --h-color: #f8fafc;
+        --border-color: #475569;
+        --table-border: #94a3b8;
+        --th-bg: #334155;
+        --tr-even: #172033;
+        --highlight-bg: #1e3a8a;
+        --highlight-border: #60a5fa;
+        --code-bg: #334155;
+        --footer-color: #94a3b8;
+        --link-color: #60a5fa;
+        --card-border: #334155;
+        --mobile-card-bg: #0f172a;
+        --mobile-label-color: #94a3b8;
+        --dropdown-bg: #090d16;
+        --dropdown-hover: #1e293b;
+      }
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f1f5f9;
+      --header-bg: #090d16;
+      --header-text: #f8fafc;
+      --h-color: #f8fafc;
+      --border-color: #475569;
+      --table-border: #94a3b8;
+      --th-bg: #334155;
+      --tr-even: #172033;
+      --highlight-bg: #1e3a8a;
+      --highlight-border: #60a5fa;
+      --code-bg: #334155;
+      --footer-color: #94a3b8;
+      --link-color: #60a5fa;
+      --card-border: #334155;
+      --mobile-card-bg: #0f172a;
+      --mobile-label-color: #94a3b8;
+      --dropdown-bg: #090d16;
+      --dropdown-hover: #1e293b;
+    }
+
     body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f7fb;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
     }
+
     header {
-      background: #1f2937;
-      color: #fff;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      z-index: 10;
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 2.5rem 0;
+      text-align: center;
     }
+
+    .header-inner {
+      width: 80%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      padding: 0 2.5rem;
+    }
+
+    .header-logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-logo {
+      height: 4.5rem;
+      width: auto;
+      object-fit: contain;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .header-logo:hover {
+      opacity: 0.9;
+    }
+
+    .header-content {
+      flex: 1;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
     header h1 {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 2.2rem;
     }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+
     .header-controls {
       display: flex;
-      gap: 1rem;
       align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Dropdown Menu Styles */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: inherit;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+
+    .dropbtn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--dropdown-bg);
+      min-width: 260px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 10;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .dropdown-content a {
+      color: var(--header-text);
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .dropdown-content a:hover {
+      background-color: var(--dropdown-hover);
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: inherit;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    main {
+      width: 80%;
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 1.5rem 2.5rem 3rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      border: 1px solid var(--card-border);
+      box-sizing: border-box;
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      color: var(--h-color);
+    }
+    h3 {
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+      color: var(--h-color);
+    }
+    p {
+      margin: 0.5rem 0 1.0rem;
+    }
+    ul {
+      margin: 0.5rem 0 1.5rem;
+      padding-left: 1.25rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+    }
+    .highlight {
+      background: var(--highlight-bg);
+      border-left: 4px solid var(--highlight-border);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
       flex-wrap: wrap;
     }
-    .btn-about {
-      color: #9ca3af;
+
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      font-weight: 600;
       text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: color 0.2s;
-    }
-    .btn-about:hover {
-      color: #ffffff;
-    }
-    .btn-new-location {
-      background: #10b981;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .btn-new-location:hover {
-      background: #059669;
-    }
-    .btn-new-location.active {
-      background: #dc2626;
-    }
-    .search-wrapper {
-      position: relative;
-      display: flex;
-      gap: 0.5rem;
-    }
-    .search-container {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .search-container input {
-      padding: 0.5rem;
-      font-size: 0.9rem;
-      border: 1px solid #4b5563;
-      border-radius: 4px;
-      width: 240px;
-    }
-    .search-container button {
-      padding: 0.5rem 1rem;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .search-container button:hover {
-      background: #1d4ed8;
-    }
-    /* Autocomplete dropdown styles */
-    #autocomplete-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 50px;
-      background: #fff;
-      border: 1px solid #d1d5db;
-      border-top: none;
-      border-radius: 0 0 4px 4px;
-      z-index: 1000;
-      max-height: 200px;
-      overflow-y: auto;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      display: none;
-    }
-    .autocomplete-item {
-      padding: 0.5rem;
-      font-size: 0.85rem;
-      color: #1f2937;
-      cursor: pointer;
-      border-bottom: 1px solid #f3f4f6;
-    }
-    .autocomplete-item:hover {
-      background: #f3f4f6;
-    }
-    .autocomplete-item.stvr-match {
-      font-weight: 600;
-      color: #2563eb;
-    }
-    #map {
-      flex: 1;
-      width: 100%;
-    }
-    #placementBanner {
-      display: none;
-      position: absolute;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1f2937;
-      color: #fff;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 100;
-      font-weight: 500;
-      font-size: 0.95rem;
       text-align: center;
+      transition: opacity 0.2s;
     }
 
-    /* Custom Popup Styles - COMPACTIFIED */
-    .maplibregl-popup-content {
-      padding: 0.8rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      min-width: 250px;
+    .btn-primary {
+      background: var(--link-color);
+      color: #fff;
     }
 
-    /* BIG, mobile-friendly close button */
-    .maplibregl-popup-close-button {
-      font-size: 32px !important;
-      width: 44px !important;
-      height: 44px !important;
-      color: #4b5563 !important;
-      right: 2px !important;
-      top: 2px !important;
-      background-color: transparent !important;
-      border-radius: 50% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      line-height: 1 !important;
-      transition: background-color 0.2s, color 0.2s;
-    }
-    .maplibregl-popup-close-button:hover {
-      background-color: #e5e7eb !important;
-      color: #111827 !important;
-    }
-    .maplibregl-popup-close-button:focus {
-      outline: none !important;
+    .btn-secondary {
+      background: var(--code-bg);
+      color: var(--h-color);
+      border: 1px solid var(--border-color);
     }
 
-    .popup-title {
-      font-weight: bold;
-      font-size: 1rem;
-      margin-bottom: 0.2rem;
-      color: #111827;
-      padding-right: 36px;
-    }
-    .popup-detail {
-      font-size: 0.85rem;
-      color: #4b5563;
-      margin-bottom: 0.2rem;
-    }
-    .popup-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      margin-bottom: 0.4rem;
-      border-top: 1px solid #e5e7eb;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 0.4rem 0;
-    }
-    .popup-link {
-      color: #2563eb;
+    .btn-primary:hover, .btn-secondary:hover {
+      opacity: 0.9;
       text-decoration: none;
-      font-weight: 500;
-      font-size: 0.85rem;
     }
-    .popup-link:hover {
+
+    /* Desktop Table Layout (No scrollbar, thick outlines, dark headers) */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0 2rem;
+      font-size: 0.9rem;
+      border: 2px solid var(--table-border);
+    }
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+      word-break: break-word;
+    }
+    th {
+      background: var(--th-bg);
+      color: var(--h-color);
+      font-weight: 700;
+    }
+    tr:nth-child(even) td {
+      background: var(--tr-even);
+    }
+    .tier-name {
+      font-weight: 600;
+    }
+
+    /* Footer Styles */
+    .site-footer {
+      font-size: 0.9rem;
+      color: var(--footer-color);
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
       text-decoration: underline;
     }
-    .popup-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-    .popup-btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 0.45rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 600;
-      box-sizing: border-box;
-      font-size: 0.85rem;
-      cursor: pointer;
-      border: none;
-    }
-    .btn-complaint {
-      background: #dc2626;
-      color: #fff;
-    }
-    .btn-complaint:hover {
-      background: #b91c1c;
-    }
-    .btn-reposition {
-      background: #d97706;
-      color: #fff;
-    }
-    .btn-reposition:hover {
-      background: #b45309;
-    }
-    .btn-view {
-      background: #4b5563;
-      color: #fff;
-    }
-    .btn-view:hover {
-      background: #374151;
-    }
-    .btn-add-unit {
-      background: #2563eb;
-      color: #fff;
-      white-space: nowrap;
-    }
-    .btn-add-unit:hover {
-      background: #1d4ed8;
+
+    .footer-note {
+      margin-top: 1rem;
     }
 
-    /* Multi-unit pagination footer inside popups */
-    .popup-pagination-container {
-      margin-top: 0.4rem;
-      padding-top: 0.4rem;
-      border-top: 1px solid #e5e7eb;
+    a {
+      color: var(--link-color);
+      text-decoration: none;
     }
-    .popup-pagination {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #374151;
+    a:hover {
+      text-decoration: underline;
     }
-    .popup-nav-btn {
-      background: #f3f4f6;
-      border: 1px solid #d1d5db;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #1f2937;
+    code {
+      background: var(--code-bg);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.9rem;
     }
-    .popup-nav-btn:hover:not(:disabled) {
-      background: #e5e7eb;
+
+    /* Mobile Responsive Tighter Margins & Stack View */
+    @media (max-width: 900px) {
+      header {
+        padding: 1.5rem 0;
+      }
+      .header-inner {
+        width: 90%;
+        padding: 0 1rem;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .header-logo-container {
+        margin-bottom: 0.25rem;
+      }
+      .header-controls {
+        width: 100%;
+        justify-content: center;
+      }
+      main {
+        width: 90%;
+        padding: 1rem 1.25rem;
+        margin: 1rem auto;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      table {
+        border: none;
+        margin: 1rem 0;
+      }
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      tr {
+        margin-bottom: 1.25rem;
+        border: 2px solid var(--table-border);
+        border-radius: 6px;
+        background: var(--mobile-card-bg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+      tr:nth-child(even) td {
+        background: transparent;
+      }
+      td {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding: 0.6rem 0.75rem 0.6rem 52%;
+        text-align: right;
+        word-break: normal;
+        overflow-wrap: anywhere;
+      }
+      td:last-child {
+        border-bottom: none;
+      }
+      td::before {
+        position: absolute;
+        left: 0.75rem;
+        width: 47%;
+        padding-right: 5px;
+        white-space: normal;
+        text-align: left;
+        font-weight: bold;
+        color: var(--mobile-label-color);
+        content: attr(data-label);
+      }
+      td.tier-name {
+        background: var(--th-bg);
+        color: var(--h-color);
+        text-align: left;
+        padding: 0.75rem;
+        font-size: 1.05rem;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-bottom: 2px solid var(--table-border);
+      }
+      td.tier-name::before {
+        content: none;
+      }
     }
-    .popup-nav-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+
+    @media (max-width: 480px) {
+      .header-inner {
+        width: 86%;
+        padding: 0 0.5rem;
+      }
+      main {
+        width: 86%;
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>STVR Doorman — Chatham County</h1>
-    <div class="header-controls">
-      <a href="index.html" class="btn-about">ℹ️ About</a>
-      <button id="newLocationBtn" class="btn-new-location">📍 Submit New Location</button>
-      <div class="search-wrapper">
-        <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Search address in Chatham County..." autocomplete="off" />
-          <button id="searchBtn">Search</button>
+    <div class="header-inner">
+      <div class="header-logo-container">
+        <a href="media\Vecteezy-License-Information.pdf" target="_blank" rel="noopener">
+          <img src="media\doorman.jpg" alt="STVR Doorman Logo" class="header-logo">
+        </a>
+      </div>
+      <div class="header-content">
+        <h1>About STVR Doorman</h1>
+        <p>Short-Term Vacation Rental compliance, mapping, and complaint management for municipalities and communities.</p>
+      </div>
+      <div class="header-controls">
+        <div class="dropdown" id="navDropdown">
+          <button class="dropbtn" id="dropBtn">Menu ▾</button>
+          <div class="dropdown-content">
+            <a href="map_example.html">View free and open-source example</a>
+            <a href="#getting-started">Getting Started Guide</a>
+            <a href="#consultation">Schedule a Free Consultation</a>
+            <a href="#best-practices">Operational Best Practices</a>
+            <a href="#legal-best-practices">STVR Law Best Practices</a>
+            <a href="#regulatory-guide">Regulatory Framework & Law Guide</a>
+            <a href="#founder">About the Founder</a>
+            <a href="#employees">Our Team & Employees</a>
+            <a href="#employment">Employment Opportunities</a>
+            <a href="#contribute">How to Contribute</a>
+            <a href="#legal">Legal Disclaimers</a>
+            <a href="#privacy">Privacy Policy</a>
+          </div>
         </div>
-        <div id="autocomplete-list"></div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark Mode</button>
       </div>
     </div>
   </header>
 
-  <div id="placementBanner">Click anywhere on the map to place your new location marker!</div>
-  <div id="map"></div>
+  <main>
+    <div class="action-buttons">
+      <a href="#getting-started" class="btn-primary">Getting Started Guide</a>
+      <a href="#consultation" class="btn-secondary">Schedule a Consultation — Always Free!</a>
+    </div>
 
-  <script src="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js"></script>
+    <section>
+      <h2>What is STVR Doorman?</h2>
+      <p>
+        STVR Doorman is a free and open-source platform for municipalities, counties, HOAs, and community groups
+        to monitor, map, and manage Short-Term Vacation Rentals (STVRs). It brings together:
+      </p>
+      <ul>
+        <li>Interactive maps of licensed STVR properties</li>
+        <li>Links to Airbnb, VRBO, and other platform listings</li>
+        <li>Public complaint submission and visibility via Google Forms linked to automated update scripts</li>
+        <li>Customizable levels of transparency for public reporting and data sharing</li>
+        <li>Occupancy limit calculations and over-limit detection</li>
+        <li>Municipal boundary and parcel-based approximate address mapping</li>
+      </ul>
+
+      <p>
+        The platform features customizable levels of transparency so communities can tailor reporting to local policies.
+        Complaints can be configured to be entirely public by default, moderated before publishing, made public only after official verification,
+        or kept private for internal code enforcement use only.
+      </p>
+
+      <p>
+        The platform uses open tools like <code>MapLibre GL</code>, GeoJSON, Shapefiles, and Google Forms.
+        Hosting options are available entirely for free on GitHub Pages and GitHub repositories.
+        With the right data files—municipal boundaries, parcel data, and a list of licensed STVRs—any jurisdiction
+        can deploy a fully functional STVR map and complaint portal at zero cost.
+      </p>
+
+      <div class="highlight">
+        <strong>Open data & script automation example:</strong>
+        Municipalities can use open GIS portals such as
+        <a href="https://data-sagis.opendata.arcgis.com/" target="_blank" rel="noopener">
+          https://data-sagis.opendata.arcgis.com/
+        </a>
+        to obtain boundary and parcel data. Public complaints submitted through Google Forms run a lightweight backend script
+        that automatically processes entries so the complaints map and data layers update seamlessly according to your chosen transparency settings.
+      </div>
+
+      <p>
+        STVR Doorman is designed so that any municipality can revert to the free tier at any time.
+        Paid tiers add setup, customization, hosting, automation, and enforcement tools—but the core platform
+        always remains free and open.
+      </p>
+
+      <p>
+        Community support is available via a public GitHub repository for bug reports and feature requests.
+        No direct support is included in the free tier, but the code and documentation are open to everyone.
+      </p>
+    </section>
+
+    <section>
+      <h2>Tier Overview</h2>
+      <p>
+        STVR Doorman offers several tiers, from a completely free self-hosted option to fully managed,
+        enforcement-grade solutions. All tiers can revert to the free option at any time; reverting simply
+        removes premium features while preserving the core mapping and complaint functionality.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Price</th>
+            <th>Hosting</th>
+            <th>Setup Included</th>
+            <th>Complaint System & Transparency</th>
+            <th>Real-Time Alerts</th>
+            <th>Data Required</th>
+            <th>Property Limit</th>
+            <th>Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tier-name" data-label="Tier">Free</td>
+            <td data-label="Price">$0</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
+            <td data-label="Setup Included">None</td>
+            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
+            <td data-label="Real-Time Alerts">No</td>
+            <td data-label="Data Required">Geo files + license list</td>
+            <td data-label="Property Limit">Unlimited</td>
+            <td data-label="Support">Community (GitHub)</td>
+          </tr>
+          <tr>
+            <td class="tier-name" data-label="Tier">Tier 1 – Assisted Setup</td>
+            <td data-label="Price">$2,000 one-time</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
+            <td data-label="Setup Included">Yes (free platform setup)</td>
+            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
+            <td data-label="Real-Time Alerts">No</td>
+            <td data-label="Data Required">Geo files + license list</td>
+            <td data-label="Property Limit">Unlimited</td>
+            <td data-label="Support">$200/hr for additional work</td>
+          </tr>
+          <tr>
+            <td class="tier-name" data-label="Tier">Tier 2 – Custom Complaints</td>
+            <td data-label="Price">$3,000 one-time</td>
+            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
+            <td data-label="Setup Included">Yes (custom form + integration)</td>
+            <td data-label="Complaint System & Transparency">Custom complaint form + auto-update script (customizable transparency)</td>
+            <td data-label="Real-Time Alerts">No</td>
+            <td data-label="Data Required">Geo files + license list</td>
+            <td data-label="Property Limit">Unlimited</td>
+            <td data-label="Support">$200/hr for additional work</td>
+          </tr>
+          <tr>
+            <td class="tier-name" data-label="Tier">Tier 3 – Managed Hosting</td>
+            <td data-label="Price">$5,000 setup + $2,000/year</td>
+            <td data-label="Hosting">Hosted by STVR Doorman</td>
+            <td data-label="Setup Included">Yes (full deployment)</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with advanced moderation workflows</td>
+            <td data-label="Real-Time Alerts">No</td>
+            <td data-label="Data Required">Geo files + license list</td>
+            <td data-label="Property Limit">Up to 5,000 properties</td>
+            <td data-label="Support">Up to 20 hours/year included</td>
+          </tr>
+          <tr>
+            <td class="tier-name" data-label="Tier">Tier 4 – Enforcement-Grade</td>
+            <td data-label="Price">$40,000 setup + $5,000/year</td>
+            <td data-label="Hosting">Hosted by STVR Doorman</td>
+            <td data-label="Setup Included">Yes (full deployment)</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with internal/public toggle controls</td>
+            <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
+            <td data-label="Data Required">License list only</td>
+            <td data-label="Property Limit">Up to 10,000 properties</td>
+            <td data-label="Support">Up to 20 hours/year included</td>
+          </tr>
+          <tr>
+            <td class="tier-name" data-label="Tier">Tier 5 – Ultra Premium</td>
+            <td data-label="Price">$80,000 first year + $9,000/year</td>
+            <td data-label="Hosting">Hosted by STVR Doorman</td>
+            <td data-label="Setup Included">Yes (full discovery & deployment)</td>
+            <td data-label="Complaint System & Transparency">Custom complaint system with flexible privacy rules</td>
+            <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
+            <td data-label="Data Required">No initial data required</td>
+            <td data-label="Property Limit">Up to 15,000 properties</td>
+            <td data-label="Support">Up to 40 hours/year included</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight">
+        <strong>Reverting to Free:</strong> At any time, a municipality can move back to the free tier (utilizing free GitHub hosting).
+        The map and complaint portal remain usable, but premium features such as dedicated server hosting, real-time alerts,
+        and managed updates are disabled. The platform is intentionally designed to avoid lock-in.
+      </div>
+    </section>
+
+    <section>
+      <h2>Tier Details</h2>
+
+      <h3>Free Tier – Open Source, Zero Cost</h3>
+      <p><strong>Best for:</strong> Cities with technical staff or GIS capability.</p>
+      <p><strong>Includes:</strong></p>
+      <ul>
+        <li>Full STVR mapping using MapLibre GL</li>
+        <li>Display of licensed properties and platform links (Airbnb, VRBO, etc.)</li>
+        <li>Public-facing portal with a Google Form for complaints tied to an automated update script</li>
+        <li>Configurable transparency settings (public by default, moderated, or verified-only)</li>
+        <li>Free hosting options available directly on GitHub</li>
+        <li>Unlimited properties and submissions</li>
+        <li>Community support via GitHub</li>
+      </ul>
+      <p>
+        You provide your own data files (municipal boundaries, parcel data, and license list).
+        With the correct shape/GeoJSON files and STVR locations, the entire map can be populated
+        and hosted publicly at zero cost.
+      </p>
+
+      <h3>Tier 1 – Assisted Setup (Self-Hosted)</h3>
+      <p><strong>Best for:</strong> Municipalities that want the free platform but need help setting it up.</p>
+      <p><strong>Includes everything in Free, plus:</strong></p>
+      <ul>
+        <li>One-time setup of the free platform</li>
+        <li>Integration of your license list, boundaries, and parcel data</li>
+        <li>Integration of your Google Form and script pipeline with tailored transparency rules</li>
+        <li>Unlimited properties</li>
+      </ul>
+      <p>
+        You host and maintain the platform yourself (with free options on GitHub). Additional work is available at a billable rate of $200/hr.
+      </p>
+
+      <h3>Tier 2 – Custom Complaint System (Self-Hosted)</h3>
+      <p><strong>Best for:</strong> Cities wanting a custom complaint workflow.</p>
+      <p><strong>Includes everything in Tier 1, plus:</strong></p>
+      <ul>
+        <li>Fully custom complaint form (not limited to Google Forms)</li>
+        <li>Complaint visualization directly on the map via automated data scripts</li>
+        <li>Flexible transparency controls (moderation queues, public-by-default, or verification gates)</li>
+        <li>Integration into your existing web infrastructure</li>
+      </ul>
+      <p>
+        You still host and maintain the platform yourself, with optional paid support at $200/hr.
+      </p>
+
+      <h3>Tier 3 – Managed Hosting (Up to 5,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities wanting a turnkey hosted solution.</p>
+      <p><strong>Includes everything in Tier 2, plus:</strong></p>
+      <ul>
+        <li>Fully hosted platform managed by STVR Doorman</li>
+        <li>Twice-yearly updates</li>
+        <li>Up to 20 hours of maintenance and repairs per year</li>
+        <li>Priority support</li>
+        <li>Up to 5,000 properties</li>
+      </ul>
+      <p>
+        If geographic files are incomplete or malformed, additional fees may apply for data cleanup.
+      </p>
+
+      <h3>Tier 4 – Real-Time Notifications (Up to 10,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities needing enforcement-grade tools.</p>
+      <p><strong>Includes everything in Tier 3, plus:</strong></p>
+      <ul>
+        <li>Real-time push notifications to hosts</li>
+        <li>Real-time alerts to enforcement officials (e.g., 911 dispatch, code enforcement)</li>
+        <li>No geographic files required—only a list of licenses</li>
+        <li>Up to 10,000 properties</li>
+      </ul>
+      <p>
+        You can revert to the free tier at any time and continue using a Google Form-based complaint portal.
+      </p>
+
+      <h3>Tier 5 – Ultra Premium (Up to 15,000 Properties)</h3>
+      <p><strong>Best for:</strong> Cities needing full STVR discovery and population.</p>
+      <p><strong>Includes everything in Tier 4, plus:</strong></p>
+      <ul>
+        <li>No initial license list required</li>
+        <li>Manual identification and seeding of up to 15,000 STVR properties</li>
+        <li>Annual re-check for new properties</li>
+        <li>Up to 40 hours of custom requests and configuration per year</li>
+        <li>All features from all previous tiers</li>
+      </ul>
+      <p>
+        This tier is a complete STVR compliance solution requiring minimal municipal effort.
+      </p>
+    </section>
+
+    <section>
+      <h2>Community Contributions & Visitor Submissions</h2>
+      <p>
+        Regardless of tier, visitors can always add properties by clicking on the map and submitting links
+        to listings on platforms like Airbnb, VRBO, and others. This helps keep the map current and allows
+        communities to participate directly in monitoring short-term rentals.
+      </p>
+      <p>
+        The project will maintain a public GitHub repository where users can:
+      </p>
+      <ul>
+        <li>Report bugs</li>
+        <li>Request features</li>
+        <li>Contribute improvements</li>
+        <li>Share configuration examples</li>
+      </ul>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#getting-started">Getting Started Guide</a>
+        <a href="#consultation">Schedule a Free Consultation</a>
+        <a href="#best-practices">Operational Best Practices</a>
+        <a href="#legal-best-practices">STVR Law Best Practices</a>
+        <a href="#regulatory-guide">Regulatory Framework & Law Guide</a>
+        <a href="#founder">About the Founder</a>
+        <a href="#employees">Our Team & Employees</a>
+        <a href="#employment">Employment Opportunities</a>
+        <a href="#contribute">How to Contribute</a>
+        <a href="#legal">Legal Disclaimers</a>
+        <a href="#privacy">Privacy Policy</a>
+      </div>
+      <div class="footer-note">
+        STVR Doorman is built on free and open-source software with free hosting options on GitHub. The goal is to give municipalities a powerful,
+        transparent, and flexible way to understand and manage short-term rentals—without locking them into
+        proprietary systems or permanent subscriptions.
+      </div>
+    </footer>
+  </main>
+
   <script>
-    // Configurable variable for auto-pan marker placement (0.25 = top 1/4 of the viewport)
-    const MARKER_TOP_RATIO = 0.05;
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
 
-    // Updated example locations data supporting multi-units on shared coordinates
-    const stvrLocations = [
-      {
-        address: "8611 Whitefield Ave, Savannah, GA 31406",
-        lat: 31.987425494955875,
-        lng: -81.10360683723707,
-        units: [
-          {
-            unitName: "Unit A",
-            license: "SVR-12345-A",
-            vrboUrl: "https://www.vrbo.com/3799837",
-            airbnbUrl: "https://www.airbnb.com/rooms/placeholder-a"
-          },
-          {
-            unitName: "Unit B",
-            license: "SVR-12345-B",
-            vrboUrl: "https://www.vrbo.com/3799838",
-            airbnbUrl: "https://www.airbnb.com/rooms/placeholder-b"
-          }
-        ]
-      }
-    ];
-
-    // Base Google Form prefill URL provided by user
-    const baseFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfltlpYbYXLVyUJ7CwaIoTTaiGmAeuB2uA4mTYHwqwaIJki3w/viewform?usp=pp_url";
-
-    // Initialize Map centered over Chatham County, GA with zoom level 10
-    const map = new maplibregl.Map({
-      container: 'map',
-      style: 'https://tiles.openfreemap.org/styles/liberty',
-      center: [-81.15, 31.98],
-      zoom: 10
-    });
-
-    let isPlacementMode = false;
-    let activeMarker = null;
-    let activePopup = null;
-    let pendingData = null;
-    const markerRegistry = []; 
-    const TOTAL_PARCEL_PARTS = 10; 
-    let parcelIndexCache = []; 
-
-    function getCurrentDateTime() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      return {
-        date: `${year}-${month}-${day}`,
-        time: `${hours}:${minutes}`
-      };
+    const savedTheme = localStorage.getItem('stvr_theme');
+    if (savedTheme) {
+      htmlElement.setAttribute('data-theme', savedTheme);
+      updateToggleButton(savedTheme);
+    } else {
+      updateToggleButton(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     }
 
-    function buildFormUrl(lat, lng, address, listingUrl = "") {
-      const dt = getCurrentDateTime();
-      const preciseLat = Number(lat).toFixed(7);
-      const preciseLng = Number(lng).toFixed(7);
-
-      let url = `${baseFormUrl}&entry.231361985=${encodeURIComponent(dt.date)}&entry.386457368=${encodeURIComponent(dt.time)}&entry.743148639=${encodeURIComponent(address)}&entry.1753077861=${encodeURIComponent(preciseLat)}&entry.1569813902=${encodeURIComponent(preciseLng)}`;
-      if (listingUrl) {
-        url += `&entry.999999999=${encodeURIComponent(listingUrl)}`;
-      }
-      return url;
-    }
-
-    // Helper to auto-pan map, keeping the target horizontally centered and vertically near the top
-    function flyToCenteredLocation(lng, lat, targetZoom = 18) {
-      const mapHeight = map.getContainer().clientHeight;
-      // Pad the bottom so the remaining vertical center hits the desired ratio (e.g., top 25%)
-      const bottomPadding = Math.max(0, mapHeight * (1 - (MARKER_TOP_RATIO * 2)));
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      let newTheme = 'light';
       
-      map.flyTo({
-        center: [lng, lat],
-        zoom: targetZoom,
-        speed: 1.2,
-        padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 }
-      });
-    }
-
-    window.triggerComplaint = function(lat, lng, address, listingUrl) {
-      const finalUrl = buildFormUrl(lat, lng, address, listingUrl);
-      window.open(finalUrl, '_blank');
-    };
-
-    window.repositionLocation = function(lat, lng, address) {
-      const popups = document.getElementsByClassName('maplibregl-popup');
-      while (popups[0]) popups[0].remove();
-
-      flyToCenteredLocation(lng, lat, 18);
-
-      if (activeMarker) activeMarker.remove();
-      if (activePopup) activePopup.remove();
-
-      activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
-        .setLngLat([lng, lat])
-        .addTo(map);
-
-      pendingData = {
-        lat: lat,
-        lng: lng,
-        address: address,
-        listingUrl: ""
-      };
-
-      createConfirmationPopup(lng, lat, `Repositioning: ${address}`);
-
-      activeMarker.on('dragstart', () => {
-        if (activePopup) {
-          activePopup.remove();
-          activePopup = null;
-        }
-      });
-
-      activeMarker.on('dragend', () => {
-        const newLngLat = activeMarker.getLngLat();
-        pendingData.lat = newLngLat.lat;
-        pendingData.lng = newLngLat.lng;
-        
-        createConfirmationPopup(newLngLat.lng, newLngLat.lat, 'Updating address from parcel layer...');
-        fetchAddressFromParcels(newLngLat.lng, newLngLat.lat, (updatedAddress) => {
-          pendingData.address = updatedAddress;
-          const existingReg = markerRegistry.find(m => m.address === updatedAddress.toUpperCase());
-          updatePopupText(`Parcel Address: ${updatedAddress.split(',')[0]}`, existingReg);
-        });
-      });
-    };
-
-    function getSubfolderPath(address, unitOrLicense) {
-      const cleanAddress = address.replace(/[^a-zA-Z0-9]/g, '_');
-      const cleanUnit = (unitOrLicense || 'main').replace(/[^a-zA-Z0-9]/g, '_');
-      return `./${cleanAddress}_${cleanUnit}/index.html`;
-    }
-
-    function generateMultiUnitPopupHtml(loc, unitIndex = 0) {
-      const units = (loc.units && loc.units.length > 0) ? loc.units : [{
-        unitName: loc.license || "Main Unit",
-        license: loc.license || "N/A",
-        vrboUrl: loc.vrboUrl || "#",
-        airbnbUrl: loc.airbnbUrl || "#",
-        viewComplaintsUrl: loc.viewComplaintsUrl || getSubfolderPath(loc.address, loc.license)
-      }];
-
-      const currentUnit = units[unitIndex];
-      const complaintsPath = currentUnit.viewComplaintsUrl || getSubfolderPath(loc.address, currentUnit.unitName);
-      
-      const displayTitle = currentUnit.unitName;
-      const shortAddress = loc.address.split(',')[0];
-
-      let html = `
-        <div class="popup-title">${displayTitle}</div>
-        <div class="popup-detail"><strong>Address:</strong> ${shortAddress}</div>
-        <div class="popup-detail"><strong>License #:</strong> ${currentUnit.license}</div>
-        
-        <div class="popup-links">
-          <a href="${currentUnit.vrboUrl}" target="_blank" class="popup-link">🔗 View VRBO Listing</a>
-          <a href="${currentUnit.airbnbUrl}" target="_blank" class="popup-link">🔗 View Airbnb Listing</a>
-        </div>
-
-        <div class="popup-actions">
-          <button class="popup-btn btn-complaint" onclick="triggerComplaint('${loc.lat}', '${loc.lng}', '${loc.address}', '${currentUnit.vrboUrl}')">Submit Complaint Form</button>
-          <button class="popup-btn btn-reposition" onclick="repositionLocation(${loc.lat}, ${loc.lng}, '${loc.address}')">📍 Reposition / New Spot</button>
-          <a href="${complaintsPath}" target="_blank" class="popup-btn btn-view">View Existing Complaints</a>
-        </div>
-      `;
-
-      if (units.length > 1) {
-        html += `
-          <div class="popup-pagination-container">
-            <div class="popup-pagination">
-              <button class="popup-nav-btn" ${unitIndex === 0 ? 'disabled' : ''} onclick="switchPopupUnit('${loc.address}', ${unitIndex - 1})">◀ Prev Unit</button>
-              <span>Unit ${unitIndex + 1} of ${units.length}</span>
-              <button class="popup-nav-btn" ${unitIndex === units.length - 1 ? 'disabled' : ''} onclick="switchPopupUnit('${loc.address}', ${unitIndex + 1})">Next Unit ▶</button>
-            </div>
-          </div>
-        `;
-      }
-
-      html += `
-        <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e5e7eb;">
-          <button class="popup-btn btn-add-unit" onclick="repositionLocation(${loc.lat}, ${loc.lng}, '${loc.address}')">Submit New Unit</button>
-        </div>
-      `;
-
-      return html;
-    }
-
-    window.switchPopupUnit = function(address, newIndex) {
-      const regItem = markerRegistry.find(m => m.address === address.toUpperCase());
-      if (regItem && regItem.popup) {
-        regItem.currentUnitIndex = newIndex;
-        regItem.popup.setHTML(generateMultiUnitPopupHtml(regItem.locationData, newIndex));
-      }
-    };
-
-    const newLocationBtn = document.getElementById('newLocationBtn');
-    const placementBanner = document.getElementById('placementBanner');
-    const searchInput = document.getElementById('searchInput');
-    const autocompleteList = document.getElementById('autocomplete-list');
-
-    map.on('load', () => {
-      for (let i = 1; i <= TOTAL_PARCEL_PARTS; i++) {
-        const partUrl = `media/geography_files/split_parcels/Parcel_Digest_2025_part${i}.geojson`;
-        
-        map.addSource(`parcels_part_${i}`, {
-          type: 'geojson',
-          data: partUrl
-        });
-
-        map.addLayer({
-          id: `parcel-fills-${i}`,
-          type: 'fill',
-          source: `parcels_part_${i}`,
-          minzoom: 14,
-          paint: {
-            'fill-color': '#3b82f6',
-            'fill-opacity': 0.1,
-            'fill-outline-color': '#1d4ed8'
-          }
-        });
-
-        fetch(partUrl)
-          .then(res => res.json())
-          .then(geojson => {
-            if (geojson && geojson.features) {
-              geojson.features.forEach(feature => {
-                const props = feature.properties;
-                if (props && props.PropAddress_Full) {
-                  const fullAddr = `${props.PropAddress_Full}, ${props.PropAddress_City || 'SAVANNAH'}, ${props.PropAddress_State || 'GA'} ${props.PropAddress_Zip || ''}`.trim();
-                  parcelIndexCache.push({
-                    address: fullAddr,
-                    geometry: feature.geometry
-                  });
-                }
-              });
-            }
-          }).catch(err => console.error("Error loading chunk index:", err));
-      }
-
-      const locationsToRender = (typeof stvrLocations !== 'undefined') ? stvrLocations : [];
-
-      locationsToRender.forEach(loc => {
-        const el = document.createElement('div');
-        el.style.width = '24px';
-        el.style.height = '24px';
-        el.style.backgroundColor = '#2563eb';
-        el.style.border = '2px solid #fff';
-        el.style.borderRadius = '50%';
-        el.style.cursor = 'pointer';
-
-        // autoPan false so we handle panning manually via flyToCenteredLocation
-        const popup = new maplibregl.Popup({ 
-          offset: 25, 
-          closeOnClick: true,
-          autoPan: false
-        });
-        
-        const registryEntry = {
-          address: loc.address.toUpperCase(),
-          lat: loc.lat,
-          lng: loc.lng,
-          locationData: loc,
-          currentUnitIndex: 0,
-          popup: popup,
-          marker: null
-        };
-
-        popup.setHTML(generateMultiUnitPopupHtml(loc, 0));
-
-        el.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (popup.isOpen()) {
-            popup.remove();
-          } else {
-            // Apply our custom auto-pan
-            flyToCenteredLocation(loc.lng, loc.lat, map.getZoom() > 14 ? map.getZoom() : 18);
-            marker.setPopup(popup).togglePopup();
-          }
-        });
-
-        const marker = new maplibregl.Marker({ element: el })
-          .setLngLat([loc.lng, loc.lat])
-          .addTo(map);
-
-        registryEntry.marker = marker;
-        markerRegistry.push(registryEntry);
-      });
-    });
-
-    newLocationBtn.addEventListener('click', () => {
-      isPlacementMode = !isPlacementMode;
-      if (isPlacementMode) {
-        newLocationBtn.textContent = '❌ Cancel Placement';
-        newLocationBtn.classList.add('active');
-        placementBanner.style.display = 'block';
+      if (currentTheme === 'dark') {
+        newTheme = 'light';
+      } else if (currentTheme === 'light') {
+        newTheme = 'dark';
       } else {
-        exitPlacementMode();
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        newTheme = systemDark ? 'light' : 'dark';
       }
+
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('stvr_theme', newTheme);
+      updateToggleButton(newTheme);
     });
 
-    function exitPlacementMode() {
-      isPlacementMode = false;
-      newLocationBtn.textContent = '📍 Submit New Location';
-      newLocationBtn.classList.remove('active');
-      placementBanner.style.display = 'none';
-    }
-
-    function fetchAddressFromParcels(lng, lat, callback) {
-      const point = map.project([lng, lat]);
-      const bbox = [
-        [point.x - 5, point.y - 5],
-        [point.x + 5, point.y + 5]
-      ];
-
-      const layerIds = Array.from({length: TOTAL_PARCEL_PARTS}, (_, i) => `parcel-fills-${i + 1}`);
-      const features = map.queryRenderedFeatures(bbox, { layers: layerIds });
-
-      if (features && features.length > 0) {
-        const props = features[0].properties;
-        if (props.PropAddress_Full) {
-          const city = props.PropAddress_City || 'SAVANNAH';
-          const state = props.PropAddress_State || 'GA';
-          const zip = props.PropAddress_Zip || '';
-          callback(`${props.PropAddress_Full}, ${city}, ${state} ${zip}`.trim());
-          return;
-        }
-      }
-
-      callback(`Chatham County Location (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
-    }
-
-    function createConfirmationPopup(lng, lat, initialText, existingReg = null) {
-      if (activePopup) activePopup.remove();
-
-      const popupContent = document.createElement('div');
-      
-      if (existingReg) {
-        popupContent.innerHTML = `
-          <div class="popup-title">Location Already Exists!</div>
-          <div class="popup-detail" id="popupAddressText">Address: ${existingReg.locationData.address.split(',')[0]}</div>
-          <div style="font-size: 0.85rem; color: #4b5563; margin-bottom: 0.6rem;">
-            This address has ${existingReg.locationData.units ? existingReg.locationData.units.length : 1} unit(s).
-          </div>
-          <div class="popup-actions">
-            <button class="popup-btn btn-add-unit" id="popupAddUnitBtn">Submit New Unit</button>
-            <button class="popup-btn btn-view" id="popupCancelBtn" style="background:#e5e7eb; color:#374151;">Cancel</button>
-          </div>
-        `;
+    function updateToggleButton(theme) {
+      if (theme === 'dark') {
+        themeToggle.textContent = '☀️ Light Mode';
       } else {
-        popupContent.innerHTML = `
-          <div class="popup-title">Confirm Location</div>
-          <div class="popup-detail" id="popupAddressText">${initialText}</div>
-          <div style="font-size: 0.8rem; color: #2563eb; margin-bottom: 0.4rem; font-weight: 500;">
-            💡 Tip: Drag marker or use Arrow keys to adjust!
-          </div>
-          <div class="popup-actions">
-            <button class="popup-btn btn-complaint" id="popupConfirmBtn">Confirm & Open Form</button>
-            <button class="popup-btn btn-view" id="popupCancelBtn" style="background:#e5e7eb; color:#374151;">Cancel</button>
-          </div>
-        `;
-      }
-
-      activePopup = new maplibregl.Popup({ 
-        offset: 25, 
-        closeOnClick: true,
-        autoPan: false
-      })
-        .setLngLat([lng, lat])
-        .setDOMContent(popupContent)
-        .addTo(map);
-
-      if (existingReg) {
-        document.getElementById('popupAddUnitBtn').addEventListener('click', () => {
-          cleanupActiveSession();
-          flyToCenteredLocation(existingReg.lng, existingReg.lat, 18);
-          existingReg.marker.setPopup(existingReg.popup).togglePopup();
-        });
-      } else {
-        document.getElementById('popupConfirmBtn').addEventListener('click', () => {
-          if (activeMarker && pendingData) {
-            const finalCoords = activeMarker.getLngLat();
-            const finalUrl = buildFormUrl(finalCoords.lat, finalCoords.lng, pendingData.address, pendingData.listingUrl || "");
-            window.open(finalUrl, '_blank');
-          }
-          cleanupActiveSession();
-        });
-      }
-
-      document.getElementById('popupCancelBtn').addEventListener('click', () => {
-        cleanupActiveSession();
-      });
-    }
-
-    function updatePopupText(newText, existingReg = null) {
-      if (existingReg) {
-        createConfirmationPopup(existingReg.lng, existingReg.lat, '', existingReg);
-      } else {
-        const textElem = document.getElementById('popupAddressText');
-        if (textElem) textElem.textContent = newText;
-        if (activeMarker && activePopup) {
-          activePopup.setLngLat(activeMarker.getLngLat());
-        }
+        themeToggle.textContent = '🌙 Dark Mode';
       }
     }
 
-    function cleanupActiveSession() {
-      if (activeMarker) { activeMarker.remove(); activeMarker = null; }
-      if (activePopup) { activePopup.remove(); activePopup = null; }
-      pendingData = null;
-    }
+    const dropdown = document.getElementById('navDropdown');
+    const dropBtn = document.getElementById('dropBtn');
 
-    window.addEventListener('keydown', (e) => {
-      if (!activeMarker) return;
-
-      const step = 0.00005; 
-      const currentLngLat = activeMarker.getLngLat();
-      let newLat = currentLngLat.lat;
-      let newLng = currentLngLat.lng;
-      let moved = false;
-
-      if (e.key === 'ArrowUp') { newLat += step; moved = true; }
-      else if (e.key === 'ArrowDown') { newLat -= step; moved = true; }
-      else if (e.key === 'ArrowLeft') { newLng -= step; moved = true; }
-      else if (e.key === 'ArrowRight') { newLng += step; moved = true; }
-
-      if (moved) {
-        e.preventDefault();
-        activeMarker.setLngLat([newLng, newLat]);
-        if (activePopup) {
-          activePopup.setLngLat([newLng, newLat]);
-        }
-        if (pendingData) {
-          pendingData.lat = newLat;
-          pendingData.lng = newLng;
-          fetchAddressFromParcels(newLng, newLat, (updatedAddress) => {
-            pendingData.address = updatedAddress;
-            const existingReg = markerRegistry.find(m => m.address === updatedAddress.toUpperCase());
-            updatePopupText(`Address: ${updatedAddress.split(',')[0]}`, existingReg);
-          });
-        }
-      }
+    dropBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('active');
     });
 
-    function handleLocationPlacement(coords, forcedAddress = null) {
-      exitPlacementMode();
-
-      if (forcedAddress) {
-        const existingReg = markerRegistry.find(m => m.address === forcedAddress.toUpperCase() || forcedAddress.toUpperCase().includes(m.address));
-        if (existingReg) {
-          flyToCenteredLocation(existingReg.lng, existingReg.lat, 18);
-          existingReg.marker.setPopup(existingReg.popup).togglePopup();
-          return;
-        }
-      }
-
-      if (activeMarker) { activeMarker.remove(); activeMarker = null; }
-      if (activePopup) { activePopup.remove(); activePopup = null; }
-
-      flyToCenteredLocation(coords.lng, coords.lat, 18);
-
-      activeMarker = new maplibregl.Marker({ color: '#dc2626', draggable: true })
-        .setLngLat([coords.lng, coords.lat])
-        .addTo(map);
-
-      const initialText = forcedAddress ? `Address: ${forcedAddress.split(',')[0]}` : 'Querying local parcel data...';
-      const initialReg = forcedAddress ? markerRegistry.find(m => m.address === forcedAddress.toUpperCase()) : null;
-      
-      createConfirmationPopup(coords.lng, coords.lat, initialText, initialReg);
-
-      pendingData = {
-        lat: coords.lat,
-        lng: coords.lng,
-        address: forcedAddress || 'Querying...',
-        listingUrl: ""
-      };
-
-      if (!forcedAddress) {
-        setTimeout(() => {
-          fetchAddressFromParcels(coords.lng, coords.lat, (detectedAddress) => {
-            if (pendingData) {
-              pendingData.address = detectedAddress;
-              const existingReg = markerRegistry.find(m => m.address === detectedAddress.toUpperCase());
-              updatePopupText(`Address: ${detectedAddress.split(',')[0]}`, existingReg);
-            }
-          });
-        }, 400);
-      }
-
-      activeMarker.on('dragstart', () => {
-        if (activePopup) { activePopup.remove(); activePopup = null; }
-      });
-
-      activeMarker.on('dragend', () => {
-        const newLngLat = activeMarker.getLngLat();
-        pendingData.lat = newLngLat.lat;
-        pendingData.lng = newLngLat.lng;
-        
-        createConfirmationPopup(newLngLat.lng, newLngLat.lat, 'Updating address from parcel layer...');
-        fetchAddressFromParcels(newLngLat.lng, newLngLat.lat, (updatedAddress) => {
-          pendingData.address = updatedAddress;
-          const existingReg = markerRegistry.find(m => m.address === updatedAddress.toUpperCase());
-          updatePopupText(`Address: ${updatedAddress.split(',')[0]}`, existingReg);
-        });
-      });
-    }
-
-    map.on('click', (e) => {
-      if (!isPlacementMode) return;
-      handleLocationPlacement(e.lngLat);
-    });
-
-    let contextPopup = null;
-    map.on('contextmenu', (e) => {
-      e.preventDefault();
-      if (activePopup && activeMarker) return;
-
-      if (contextPopup) contextPopup.remove();
-
-      const coords = e.lngLat;
-      const menuContent = document.createElement('div');
-      menuContent.innerHTML = `
-        <div style="font-weight: bold; margin-bottom: 0.4rem; color: #111827;">Map Options</div>
-        <button class="popup-btn btn-complaint" id="ctxAddBtn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">📍 Add New Location Here</button>
-      `;
-
-      contextPopup = new maplibregl.Popup({ 
-        offset: 15, 
-        closeOnClick: true,
-        autoPan: false 
-      })
-        .setLngLat([coords.lng, coords.lat])
-        .setDOMContent(menuContent)
-        .addTo(map);
-
-      document.getElementById('ctxAddBtn').addEventListener('click', () => {
-        contextPopup.remove();
-        contextPopup = null;
-        handleLocationPlacement(coords);
-      });
-    });
-
-    let touchTimer = null;
-    let touchCoords = null;
-
-    map.on('touchstart', (e) => {
-      if (e.originalEvent.touches.length === 1) {
-        touchCoords = e.lngLat;
-        touchTimer = setTimeout(() => {
-          if (touchCoords) {
-            handleLocationPlacement(touchCoords);
-            touchCoords = null;
-          }
-        }, 600);
+    window.addEventListener('click', () => {
+      if (dropdown.classList.contains('active')) {
+        dropdown.classList.remove('active');
       }
     });
-
-    map.on('touchmove', () => {
-      if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; touchCoords = null; }
-    });
-
-    map.on('touchend', () => {
-      if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; touchCoords = null; }
-    });
-
-    function getPolygonCentroid(geometry) {
-      let coords = geometry.coordinates;
-      let flatCoords = [];
-      
-      if (geometry.type === 'Polygon') {
-        flatCoords = coords[0];
-      } else if (geometry.type === 'MultiPolygon') {
-        flatCoords = coords[0][0];
-      } else {
-        return null;
-      }
-
-      let sumLng = 0;
-      let sumLat = 0;
-      let count = flatCoords.length;
-
-      for (let i = 0; i < count; i++) {
-        sumLng += flatCoords[i][0];
-        sumLat += flatCoords[i][1];
-      }
-
-      return { lng: sumLng / count, lat: sumLat / count };
-    }
-
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.trim().toUpperCase();
-      autocompleteList.innerHTML = '';
-      
-      if (query.length < 3) {
-        autocompleteList.style.display = 'none';
-        return;
-      }
-
-      const stvrMatches = markerRegistry.filter(m => m.address.includes(query));
-      const parcelMatches = parcelIndexCache.filter(item => item.address.toUpperCase().includes(query)).slice(0, 6);
-
-      let totalResults = 0;
-
-      if (stvrMatches.length > 0) {
-        stvrMatches.forEach(match => {
-          totalResults++;
-          const div = document.createElement('div');
-          div.className = 'autocomplete-item stvr-match';
-          div.textContent = `⭐ [Registered STVR] ${match.address}`;
-          div.addEventListener('click', () => {
-            searchInput.value = match.address;
-            autocompleteList.style.display = 'none';
-            zoomToExistingMarker(match);
-          });
-          autocompleteList.appendChild(div);
-        });
-      }
-
-      if (parcelMatches.length > 0) {
-        parcelMatches.forEach(match => {
-          totalResults++;
-          const div = document.createElement('div');
-          div.className = 'autocomplete-item';
-          div.textContent = match.address;
-          div.addEventListener('click', () => {
-            searchInput.value = match.address;
-            autocompleteList.style.display = 'none';
-            const centroid = getPolygonCentroid(match.geometry);
-            if (centroid) {
-              handleLocationPlacement(centroid, match.address);
-            }
-          });
-          autocompleteList.appendChild(div);
-        });
-      }
-
-      if (totalResults > 0) {
-        autocompleteList.style.display = 'block';
-      } else {
-        autocompleteList.style.display = 'none';
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.search-wrapper')) {
-        autocompleteList.style.display = 'none';
-      }
-    });
-
-    document.getElementById('searchBtn').addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        autocompleteList.style.display = 'none';
-        performSearch();
-      }
-    });
-
-    function zoomToExistingMarker(stvrItem) {
-      exitPlacementMode();
-      if (activeMarker) { activeMarker.remove(); activeMarker = null; }
-      if (activePopup) { activePopup.remove(); activePopup = null; }
-
-      flyToCenteredLocation(stvrItem.lng, stvrItem.lat, 18);
-      stvrItem.marker.setPopup(stvrItem.popup).togglePopup();
-    }
-
-    function performSearch() {
-      const query = searchInput.value.trim().toUpperCase();
-      if (!query) return;
-
-      const existingStvr = markerRegistry.find(m => m.address === query || m.address.includes(query));
-      if (existingStvr) {
-        zoomToExistingMarker(existingStvr);
-        return;
-      }
-
-      const exactMatch = parcelIndexCache.find(item => item.address.toUpperCase() === query || item.address.toUpperCase().includes(query));
-      if (exactMatch) {
-        const centroid = getPolygonCentroid(exactMatch.geometry);
-        if (centroid) {
-          handleLocationPlacement(centroid, exactMatch.address);
-          return;
-        }
-      }
-
-      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchInput.value.trim() + ' Chatham County Georgia')}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.length > 0) {
-            const lat = parseFloat(data[0].lat);
-            const lon = parseFloat(data[0].lon);
-            handleLocationPlacement({ lat: lat, lng: lon });
-          } else {
-            alert('Address not found in Chatham County.');
-          }
-        })
-        .catch(err => console.error('Search error:', err));
-    }
   </script>
 </body>
 </html>
