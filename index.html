@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -547,101 +547,251 @@
         removes premium features while preserving the core mapping and complaint functionality.
       </p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Tier</th>
-            <th>Price</th>
-            <th>Hosting</th>
-            <th>Setup Included</th>
-            <th>Complaint System & Transparency</th>
-            <th>Real-Time Alerts</th>
-            <th>Data Required</th>
-            <th>Property Limit</th>
-            <th>Support</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="tier-name" data-label="Tier">Free</td>
-            <td data-label="Price">$0</td>
-            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
-            <td data-label="Setup Included">None</td>
-            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
-            <td data-label="Real-Time Alerts">No</td>
-            <td data-label="Data Required">Geo files + license list</td>
-            <td data-label="Property Limit">Unlimited</td>
-            <td data-label="Support">Community (GitHub)</td>
-          </tr>
-          <tr>
-            <td class="tier-name" data-label="Tier">Tier 1 – Assisted Setup</td>
-            <td data-label="Price">$2,000 one-time</td>
-            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
-            <td data-label="Setup Included">Yes (free platform setup)</td>
-            <td data-label="Complaint System & Transparency">Google Forms + auto-update script (customizable transparency)</td>
-            <td data-label="Real-Time Alerts">No</td>
-            <td data-label="Data Required">Geo files + license list</td>
-            <td data-label="Property Limit">Unlimited</td>
-            <td data-label="Support">$200/hr for additional work</td>
-          </tr>
-          <tr>
-            <td class="tier-name" data-label="Tier">Tier 2 – Custom Complaints</td>
-            <td data-label="Price">$3,000 one-time</td>
-            <td data-label="Hosting">Self-hosted (Free on GitHub)</td>
-            <td data-label="Setup Included">Yes (custom form + integration)</td>
-            <td data-label="Complaint System & Transparency">Custom complaint form + auto-update script (customizable transparency)</td>
-            <td data-label="Real-Time Alerts">No</td>
-            <td data-label="Data Required">Geo files + license list</td>
-            <td data-label="Property Limit">Unlimited</td>
-            <td data-label="Support">$200/hr for additional work</td>
-          </tr>
-          <tr>
-            <td class="tier-name" data-label="Tier">Tier 3 – Managed Hosting</td>
-            <td data-label="Price">$5,000 setup + $2,000/year</td>
-            <td data-label="Hosting">Hosted by STVR Doorman</td>
-            <td data-label="Setup Included">Yes (full deployment)</td>
-            <td data-label="Complaint System & Transparency">Custom complaint system with advanced moderation workflows</td>
-            <td data-label="Real-Time Alerts">No</td>
-            <td data-label="Data Required">Geo files + license list</td>
-            <td data-label="Property Limit">Up to 5,000 properties</td>
-            <td data-label="Support">Up to 20 hours/year included</td>
-          </tr>
-          <tr>
-            <td class="tier-name" data-label="Tier">Tier 4 – Enforcement-Grade</td>
-            <td data-label="Price">$40,000 setup + $5,000/year</td>
-            <td data-label="Hosting">Hosted by STVR Doorman</td>
-            <td data-label="Setup Included">Yes (full deployment)</td>
-            <td data-label="Complaint System & Transparency">Custom complaint system with internal/public toggle controls</td>
-            <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
-            <td data-label="Data Required">License list only</td>
-            <td data-label="Property Limit">Up to 10,000 properties</td>
-            <td data-label="Support">Up to 20 hours/year included</td>
-          </tr>
-          <tr>
-            <td class="tier-name" data-label="Tier">Tier 5 – Ultra Premium</td>
-            <td data-label="Price">$80,000 first year + $9,000/year</td>
-            <td data-label="Hosting">Hosted by STVR Doorman</td>
-            <td data-label="Setup Included">Yes (full discovery & deployment)</td>
-            <td data-label="Complaint System & Transparency">Custom complaint system with flexible privacy rules</td>
-            <td data-label="Real-Time Alerts">Yes (hosts & enforcement)</td>
-            <td data-label="Data Required">No initial data required</td>
-            <td data-label="Property Limit">Up to 15,000 properties</td>
-            <td data-label="Support">Up to 40 hours/year included</td>
-          </tr>
-        </tbody>
-      </table>
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Price</th>
+      <th>Hosting</th>
+      <th>Setup Included</th>
+      <th>Complaint System & Transparency</th>
+      <th>Real-Time Alerts</th>
+      <th>Data Required</th>
+      <th>Property Limit</th>
+      <th>Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Free</td>
+      <td>$0</td>
+      <td>Self-hosted</td>
+      <td>None</td>
+      <td>Google Forms + auto-update</td>
+      <td>No</td>
+      <td>Geo files + license list</td>
+      <td>Unlimited*</td>
+      <td>Community</td>
+    </tr>
+    <tr>
+      <td>Tier 1 - Assisted Setup</td>
+      <td>$500 one-time</td>
+      <td>Self-hosted</td>
+      <td>Yes</td>
+      <td>Google Forms + auto-update</td>
+      <td>No</td>
+      <td>Geo files + license list</td>
+      <td>Unlimited*</td>
+      <td>Pay-as-needed</td>
+    </tr>
+    <tr>
+      <td>Tier 2 - Custom Complaints</td>
+      <td>$3,000 one-time</td>
+      <td>Self-hosted</td>
+      <td>Yes</td>
+      <td>Custom complaint form</td>
+      <td>No</td>
+      <td>Geo files + license list</td>
+      <td>Unlimited*</td>
+      <td>Pay-as-needed</td>
+    </tr>
+    <tr>
+      <td>Tier 3 - Managed Hosting</td>
+      <td>$4,000 setup + $1,500/year</td>
+      <td>Hosted</td>
+      <td>Yes</td>
+      <td>Custom complaint system</td>
+      <td>No</td>
+      <td>Geo files + license list</td>
+      <td>Up to 5,000</td>
+      <td>Basic maintenance</td>
+    </tr>
+    <tr>
+      <td>Tier 4 - Enforcement-Grade</td>
+      <td>$8,000 setup + $4,000/year</td>
+      <td>Hosted</td>
+      <td>Yes</td>
+      <td>Enforcement-grade complaint system</td>
+      <td>Yes (1,000 accounts)</td>
+      <td>License list only</td>
+      <td>Up to 10,000</td>
+      <td>Operational maintenance</td>
+    </tr>
+    <tr>
+      <td>Tier 5 - Ultra Premium</td>
+      <td>$15,000 setup + $3,000/year</td>
+      <td>Hosted</td>
+      <td>Yes</td>
+      <td>Premium complaint system</td>
+      <td>Yes (2,000 accounts)</td>
+      <td>No data required</td>
+      <td>Up to 15,000</td>
+      <td>Priority response</td>
+    </tr>
+  </tbody>
+</table>
+
+
 
       <div class="highlight">
+        <strong>*Note: Free hosting property limit is determined by the hosting provider.  There is no restriction in the software or code.</strong><br><br>
         <strong>Reverting to Free:</strong> At any time, a municipality can move back to the free tier (utilizing free GitHub hosting).
         The map and complaint portal remain usable, but premium features such as dedicated server hosting, real-time alerts,
         and managed updates are disabled. The platform is intentionally designed to avoid lock-in.
       </div>
     </section>
 
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Typical Pricing</th>
+      <th>Public Complaint Portal</th>
+      <th>Public Map</th>
+      <th>Open Source</th>
+      <th>Notifications</th>
+      <th>Self-Host</th>
+      <th>No Vendor Lock-In</th>
+      <th>Examples / Website</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td><strong>STVR Doorman</strong></td>
+      <td>
+        <strong>Free</strong><br>
+        Managed plans starting at $500<br>
+        Ultra Premium: <strong>$18,000 first year</strong>, $3,000/yr
+      </td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>✅</td>
+      <td>
+        <a href="https://michaelwoodc.github.io/STVR-doorman" target="_blank">Website</a>
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Deckard Technologies</strong></td>
+      <td>
+        <strong>$92,500</strong> first year<br>
+        <strong>$92,500/yr</strong> recurring*
+      </td>
+      <td>
+        <a href="https://complaints-str.deckard.com/savannah-ga-str-complaints/" target="_blank">
+          Savannah Complaint Portal
+        </a>
+      </td>
+      <td>
+        <a href="https://str-public-portal.deckard.com/?place=ga-savannah" target="_blank">
+          Savannah Public Map
+        </a>
+      </td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>
+        <a href="https://deckard.com" target="_blank">Website</a>
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Host Compliance (Granicus)</strong></td>
+      <td>
+        <strong>$19,375</strong> first year<br>
+        <strong>$16,875/yr</strong> recurring*
+      </td>
+      <td>⚠️</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>
+        <a href="https://granicus.com/solution/govservice/" target="_blank">
+          govService
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>GovOS</strong></td>
+      <td>
+        <strong>$27,000</strong> first year*<br>
+        <strong>$27,000/yr</strong>
+      </td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>
+        <a href="https://govos.com/solutions/short-term-rental-compliance/" target="_blank">
+          STR Compliance
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Avenu Insights</strong></td>
+      <td>
+        <strong>$22,250</strong> first year*<br>
+        <strong>$19,250/yr</strong>
+      </td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>
+        <a href="https://www.avenuinsights.com/" target="_blank">
+          Website
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Harmari</strong></td>
+      <td>Custom Quote</td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>⚠️</td>
+      <td>❌</td>
+      <td>❌</td>
+      <td>
+        <a href="https://harmari.com/" target="_blank">
+          Website
+        </a>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+<p>
+<strong>Legend:</strong>
+✅ Included &nbsp;&nbsp;
+❌ No &nbsp;&nbsp;
+⚠️ Limited, internal, or could not be publicly verified.
+</p>
+
+<p style="font-size:0.9em;">
+*Example pricing is from Wayne County, NY's 2024 procurement comparing multiple vendors and may vary by municipality.
+</p>
     <section>
       <h2>Tier Details</h2>
 
-      <h3>Free Tier – Open Source, Zero Cost</h3>
+      <h3>Free Tier - Open Source, Zero Cost</h3>
       <p><strong>Best for:</strong> Cities with technical staff or GIS capability.</p>
       <p><strong>Includes:</strong></p>
       <ul>
@@ -659,7 +809,7 @@
         and hosted publicly at zero cost.
       </p>
 
-      <h3>Tier 1 – Assisted Setup (Self-Hosted)</h3>
+      <h3>Tier 1 - Assisted Setup (Self-Hosted)</h3>
       <p><strong>Best for:</strong> Municipalities that want the free platform but need help setting it up.</p>
       <p><strong>Includes everything in Free, plus:</strong></p>
       <ul>
@@ -672,7 +822,7 @@
         You host and maintain the platform yourself (with free options on GitHub). Additional work is available at a billable rate of $200/hr.
       </p>
 
-      <h3>Tier 2 – Custom Complaint System (Self-Hosted)</h3>
+      <h3>Tier 2 - Custom Complaint System (Self-Hosted)</h3>
       <p><strong>Best for:</strong> Cities wanting a custom complaint workflow.</p>
       <p><strong>Includes everything in Tier 1, plus:</strong></p>
       <ul>
@@ -685,7 +835,7 @@
         You still host and maintain the platform yourself, with optional paid support at $200/hr.
       </p>
 
-      <h3>Tier 3 – Managed Hosting (Up to 5,000 Properties)</h3>
+      <h3>Tier 3 - Managed Hosting (Up to 5,000 Properties)</h3>
       <p><strong>Best for:</strong> Cities wanting a turnkey hosted solution.</p>
       <p><strong>Includes everything in Tier 2, plus:</strong></p>
       <ul>
@@ -699,7 +849,7 @@
         If geographic files are incomplete or malformed, additional fees may apply for data cleanup.
       </p>
 
-      <h3>Tier 4 – Real-Time Notifications (Up to 10,000 Properties)</h3>
+      <h3>Tier 4 - Real-Time Notifications (Up to 10,000 Properties)</h3>
       <p><strong>Best for:</strong> Cities needing enforcement-grade tools.</p>
       <p><strong>Includes everything in Tier 3, plus:</strong></p>
       <ul>
@@ -712,7 +862,7 @@
         You can revert to the free tier at any time and continue using a Google Form-based complaint portal.
       </p>
 
-      <h3>Tier 5 – Ultra Premium (Up to 15,000 Properties)</h3>
+      <h3>Tier 5 - Ultra Premium (Up to 15,000 Properties)</h3>
       <p><strong>Best for:</strong> Cities needing full STVR discovery and population.</p>
       <p><strong>Includes everything in Tier 4, plus:</strong></p>
       <ul>
@@ -820,4 +970,4 @@
     });
   </script>
 </body>
-</html>
+</html> -->
